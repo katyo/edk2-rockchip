@@ -1,0 +1,65 @@
+#/** @file
+#
+#    Copyright (c) 2011-2015, ARM Limited. All rights reserved.
+#    Copyright (c) 2015, Hisilicon Limited. All rights reserved.
+#    Copyright (c) 2015, Linaro Limited. All rights reserved.
+#
+#    SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = FlashFvbDxe
+  FILE_GUID                      = 340fdaaa-3177-11ec-95b4-f42a7dcb925d
+  MODULE_TYPE                    = DXE_RUNTIME_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = FlashFvbInitialize
+
+[Sources.common]
+  FlashFvbDxe.c
+  FlashBlockIoDxe.c
+
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  Silicon/Rockchip/RockchipPkg.dec
+
+[LibraryClasses]
+  IoLib
+  BaseLib
+  DebugLib
+  HobLib
+  UefiLib
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  UefiRuntimeLib
+
+[Guids]
+  gEfiEventVirtualAddressChangeGuid
+  gEfiSystemNvDataFvGuid
+  gEfiVariableGuid
+
+[Protocols]
+  gEfiBlockIoProtocolGuid
+  gEfiDevicePathProtocolGuid
+  gEfiFirmwareVolumeBlockProtocolGuid
+  gRockchipSpiFlashProtocolGuid
+
+[Pcd.common]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase64
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase64
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
+
+  gArmPlatformTokenSpaceGuid.PcdNorFlashCheckBlockLocked
+  gRockchipTokenSpaceGuid.PcdSFCMEM0BaseAddress
+
+[Depex]
+  gRockchipSpiFlashProtocolGuid
+
+[BuildOptions]

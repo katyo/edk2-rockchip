@@ -1,0 +1,58 @@
+#/** @file
+#
+#    Copyright (c) 2015, Hisilicon Limited. All rights reserved.
+#    Copyright (c) 2015, Linaro Limited. All rights reserved.
+#
+#    SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = NorFlashDxe
+  FILE_GUID                      = 3de62cf0-3177-11ec-95b4-f42a7dcb925d
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+
+  ENTRY_POINT                    = InitializeFlash
+
+[Sources.common]
+  NorFlashDxe.c
+  NorFlashHw.c
+  NorFlashConfig.c
+
+[Packages]
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  Silicon/Rockchip/RockchipPkg.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  DebugLib
+  BaseLib
+  DebugLib
+  IoLib
+  SerialPortLib
+  ArmLib
+  CacheMaintenanceLib
+  UefiLib
+  PrintLib
+  PcdLib
+
+  DxeServicesTableLib
+[Guids]
+
+[Protocols]
+  gUniNorFlashProtocolGuid
+  gEfiCpuArchProtocolGuid
+
+[Pcd]
+  gRockchipTokenSpaceGuid.PcdNORFlashBase
+  gRockchipTokenSpaceGuid.PcdNORFlashCachableSize
+
+
+[Depex]
+ TRUE
+
