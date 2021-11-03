@@ -36,5 +36,11 @@ VOID *buf,
 UINT32 width,
 UINT32 len);
 
+EFI_STATUS
+EFIAPI
+SdhciGetClockRate (
+  IN UINTN TargetFreq,
+  OUT UINTN *BaseFreq
+  );
 
 #endif

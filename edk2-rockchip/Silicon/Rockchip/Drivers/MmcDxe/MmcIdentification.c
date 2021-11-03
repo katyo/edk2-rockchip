@@ -259,7 +259,8 @@ InitializeEmmcDevice (
   EFI_STATUS Status = EFI_SUCCESS;
   ECSD       *ECSDData;
   UINT32     BusClockFreq, Idx, BusMode;
-  UINT32     TimingMode[4] = {EMMCHS52DDR1V2, EMMCHS52DDR1V8, EMMCHS52, EMMCHS26};
+  //UINT32     TimingMode[4] = {EMMCHS52DDR1V2, EMMCHS52DDR1V8, EMMCHS52, EMMCHS26};
+  UINT32     TimingMode[] = {EMMCHS52, EMMCHS26};
 
   Host  = MmcHostInstance->MmcHost;
   ECSDData = MmcHostInstance->CardInfo.ECSDData;

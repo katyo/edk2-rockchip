@@ -111,7 +111,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|$(SERIAL_BASE)
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate|1500000
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultDataBits|8
-  #gEfiMdePkgTokenSpaceGuid.PcdUartDefaultParity|0
+  gEfiMdePkgTokenSpaceGuid.PcdUartDefaultParity|1
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultStopBits|1
   
   ## PL031 RealTimeClock
@@ -140,6 +140,10 @@
   gDesignWareTokenSpaceGuid.PcdDwEmmcDxeClockFrequencyInHz|100000000
   gDesignWareTokenSpaceGuid.PcdDwPermitObsoleteDrivers|TRUE
   gDesignWareTokenSpaceGuid.PcdDwEmmcDxeFifoDepth|256
+  #
+  # SDHCI controller
+  #
+  gRockchipTokenSpaceGuid.PcdSdhciDxeBaseAddress|0xfe2e0000
   #
   #
   # Fastboot
@@ -229,6 +233,7 @@
   #Silicon/Synopsys/DesignWare/Drivers/DwEmmcDxe/DwEmmcDxe.inf
   Silicon/Rockchip/Drivers/MmcDxe/MmcDxe.inf
   Silicon/Rockchip/Drivers/DwEmmcDxe/DwEmmcDxe.inf
+  Silicon/Rockchip/Drivers/SdhciHostDxe/SdhciHostDxe.inf
 
   #
   # USB Host Support
