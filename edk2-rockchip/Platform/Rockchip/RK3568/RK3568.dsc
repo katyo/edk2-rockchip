@@ -225,8 +225,10 @@
   #
   # MMC/SD
   #
-  EmbeddedPkg/Universal/MmcDxe/MmcDxe.inf
-  Silicon/Synopsys/DesignWare/Drivers/DwEmmcDxe/DwEmmcDxe.inf
+  #EmbeddedPkg/Universal/MmcDxe/MmcDxe.inf
+  #Silicon/Synopsys/DesignWare/Drivers/DwEmmcDxe/DwEmmcDxe.inf
+  Silicon/Rockchip/Drivers/MmcDxe/MmcDxe.inf
+  Silicon/Rockchip/Drivers/DwEmmcDxe/DwEmmcDxe.inf
 
   #
   # USB Host Support

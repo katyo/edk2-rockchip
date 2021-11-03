@@ -127,8 +127,10 @@ READ_LOCK_STATUS   = TRUE
   #
   # Multimedia Card Interface
   #
-  INF EmbeddedPkg/Universal/MmcDxe/MmcDxe.inf
-  INF Silicon/Synopsys/DesignWare/Drivers/DwEmmcDxe/DwEmmcDxe.inf
+  #INF EmbeddedPkg/Universal/MmcDxe/MmcDxe.inf
+  #INF Silicon/Synopsys/DesignWare/Drivers/DwEmmcDxe/DwEmmcDxe.inf
+  INF Silicon/Rockchip/Drivers/MmcDxe/MmcDxe.inf
+  INF Silicon/Rockchip/Drivers/DwEmmcDxe/DwEmmcDxe.inf
 
   #
   # USB Host Support
