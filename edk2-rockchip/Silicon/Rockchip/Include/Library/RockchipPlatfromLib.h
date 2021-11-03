@@ -32,7 +32,6 @@ DwEmmcDxeIoMux ();
 VOID
 EFIAPI
 DebugPrintHex(
-char *s,
 VOID *buf,
 UINT32 width,
 UINT32 len);

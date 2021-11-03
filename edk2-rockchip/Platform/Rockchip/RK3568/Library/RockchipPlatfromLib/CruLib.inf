@@ -18,7 +18,6 @@
   MdeModulePkg/MdeModulePkg.dec
   Platform/Rockchip/RK3568/RK3568.dec
   Silicon/Rockchip/RK3568/RK3568.dec
-  Silicon/Rockchip/RockchipPkg.dec
 
 [LibraryClasses]
   ArmLib
@@ -26,10 +25,8 @@
   IoLib
   MemoryAllocationLib
   SerialPortLib
-  CruLib
 
 [Sources.common]
-  RockchipPlatfromLib.c
   RK3568CruLib.c
 
 [Sources.AARCH64]

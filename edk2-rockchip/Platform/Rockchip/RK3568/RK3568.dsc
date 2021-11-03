@@ -38,6 +38,7 @@
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
   ArmPlatformLib|Platform/Rockchip/RK3568/Library/RK3568Lib/RK3568Lib.inf
   RockchipPlatfromLib|Platform/Rockchip/RK3568/Library/RockchipPlatfromLib/RockchipPlatfromLib.inf
+  CruLib|Silicon/Rockchip/Library/CruLib/CruLib.inf
 
   CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
   UefiBootManagerLib|MdeModulePkg/Library/UefiBootManagerLib/UefiBootManagerLib.inf

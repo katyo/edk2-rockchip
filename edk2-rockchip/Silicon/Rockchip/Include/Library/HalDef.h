@@ -6,7 +6,7 @@
 #ifndef _HAL_DEF_H_
 #define _HAL_DEF_H_
 
-#include "soc.h"
+#include "Soc.h"
 
 /* SOC OPS Marco */
 #define SET_BIT(REG, BIT)    ((*(volatile uint32_t *)&(REG)) |= (BIT))

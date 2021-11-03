@@ -11,6 +11,10 @@
 
 #define uint32_t UINT32
 #define uint64_t UINT64
+#define HAL_ASSERT ASSERT
+#define HAL_CPUDelayUs MicroSecondDelay
+#define __WEAK
+#define HAL_DivU64 DivU64x32
 /* IO definitions (access restrictions to peripheral registers) */
 /*!< brief Defines 'read only' permissions */
 #ifdef __cplusplus
@@ -70,6 +74,20 @@ typedef enum
   DMAC0_IRQn             = 46,       /*!< DMAC0 Interrupt             */
   DMAC1_ABORT_IRQn       = 47,       /*!< DMAC1 Abort Interrupt       */
   DMAC1_IRQn             = 48,       /*!< DMAC1 Interrupt             */
+  GMAC0_IRQn             = 59,       /*!< GMAC0 Interrupt             */
+  GMAC1_IRQn             = 64,       /*!< GMAC1 Interrupt             */
+  GPIO0_IRQn             = 65,       /*!< GPIO0 Interrupt             */
+  GPIO1_IRQn             = 66,       /*!< GPIO1 Interrupt             */
+  GPIO2_IRQn             = 67,       /*!< GPIO2 Interrupt             */
+  GPIO3_IRQn             = 68,       /*!< GPIO3 Interrupt             */
+  GPIO4_IRQn             = 69,       /*!< GPIO4 Interrupt             */
+  I2C0_IRQn              = 78,       /*!< I2C0 Interrupt              */
+  I2C1_IRQn              = 79,       /*!< I2C1 Interrupt              */
+  I2C2_IRQn              = 80,       /*!< I2C2 Interrupt              */
+  I2C3_IRQn              = 81,       /*!< I2C3 Interrupt              */
+  I2C4_IRQn              = 82,       /*!< I2C4 Interrupt              */
+  I2C5_IRQn              = 83,       /*!< I2C5 Interrupt              */
+  FSPI0_IRQn             = 133,      /*!< FSPI Interrupt              */
   SPI0_IRQn              = 135,      /*!< SPI0 Interrupt              */
   SPI1_IRQn              = 136,      /*!< SPI1 Interrupt              */
   SPI2_IRQn              = 137,      /*!< SPI2 Interrupt              */
@@ -93,9 +111,34 @@ typedef enum
   WDT0_IRQn              = 181,      /*!< WDT0  Interrupt             */
   DDR_ECC_CE_IRQn        = 205,      /*!< DDR ECC correctable fault Interrupt */
   DDR_ECC_UE_IRQn        = 207,      /*!< DDR ECC uncorrectable fault Interrupt */
+  MBOX0_CH0_A2B_IRQn     = 215,      /*!< MBOX0 CH0 A2B Interrupt     */
+  MBOX0_CH1_A2B_IRQn     = 216,      /*!< MBOX0 CH1 A2B Interrupt     */
+  MBOX0_CH2_A2B_IRQn     = 217,      /*!< MBOX0 CH2 A2B Interrupt     */
+  MBOX0_CH3_A2B_IRQn     = 218,      /*!< MBOX0 CH3 A2B Interrupt     */
+  MBOX0_CH0_B2A_IRQn     = 219,      /*!< MBOX0 CH0 B2A Interrupt     */
+  MBOX0_CH1_B2A_IRQn     = 220,      /*!< MBOX0 CH1 B2A Interrupt     */
+  MBOX0_CH2_B2A_IRQn     = 221,      /*!< MBOX0 CH2 B2A Interrupt     */
+  MBOX0_CH3_B2A_IRQn     = 222,      /*!< MBOX0 CH3 B2A Interrupt     */
+  NFAULT0_IRQn           = 272,      /*!< DSU L3 CACHE ECC FAULT Interrupt */
+  NFAULT1_IRQn           = 273,      /*!< CPU0 L1-L2 CACHE ECC FAULT Interrupt */
+  NFAULT2_IRQn           = 274,      /*!< CPU1 L1-L2 CACHE ECC FAULT Interrupt */
+  NFAULT3_IRQn           = 275,      /*!< CPU2 L1-L2 CACHE ECC FAULT Interrupt */
+  NFAULT4_IRQn           = 276,      /*!< CPU3 L1-L2 CACHE ECC FAULT Interrupt */
+  NERR0_IRQn             = 277,      /*!< DSU L3 CACHE ECC ERROR Interrupt */
+  NERR1_IRQn             = 278,      /*!< CPU0 L1-L2 CACHE ECC ERROR Interrupt */
+  NERR2_IRQn             = 279,      /*!< CPU1 L1-L2 CACHE ECC ERROR Interrupt */
+  NERR3_IRQn             = 280,      /*!< CPU2 L1-L2 CACHE ECC ERROR Interrupt */
+  NERR4_IRQn             = 281,      /*!< CPU3 L1-L2 CACHE ECC ERROR Interrupt */
   RSVD0_IRQn             = 283,      /*!< RSVD0  Interrupt            */
   NUM_INTERRUPTS         = 352,
 } IRQn_Type;
+
+#define RSVD_IRQn(_N)               (RSVD0_IRQn + (_N))
+#define GPIO_IRQ_GROUP_DIRQ_BASE    RSVD_IRQn(37) /* gic irq: 320 */
+#define GPIO_IRQ_GROUP_DIRQ_NUM     (NUM_INTERRUPTS - GPIO_IRQ_GROUP_DIRQ_BASE)
+
+#define GPIO_IRQ_GROUP_GPIO0_HWIRQ  GPIO0_IRQn
+#define GPIO_IRQ_GROUP_GPION_HWIRQ  GPIO4_IRQn
 
 /* ================================================================================ */
 /* ================      Processor and Core Peripheral Section     ================ */
@@ -194,6 +237,40 @@ typedef enum CLOCK_Name {
     CLK_CAN2       = CLK(CLK_CAN2_SEL, CLK_CAN2_DIV),
     CLK_TSADC_TSEN = CLK(CLK_TSADC_TSEN_SEL, CLK_TSADC_TSEN_DIV),
     CLK_TSADC      = CLK(0, CLK_TSADC_DIV),
+    SCLK_SFC       = CLK(SCLK_SFC_SEL, 0U),
+    CLK_MAC0_2TOP          = CLK(CLK_MAC0_2TOP_SEL, 0U),
+    CLK_MAC1_2TOP          = CLK(CLK_MAC1_2TOP_SEL, 0U),
+    CLK_MAC0_OUT           = CLK(CLK_MAC0_OUT_SEL, 0U),
+    CLK_MAC1_OUT           = CLK(CLK_MAC1_OUT_SEL, 0U),
+    CLK_GMAC0_PTP_REF      = CLK(CLK_GMAC0_PTP_REF_SEL, 0U),
+    CLK_GMAC1_PTP_REF      = CLK(CLK_GMAC1_PTP_REF_SEL, 0U),
+    SCLK_GMAC0             = CLK(RMII0_EXTCLK_SEL, 0U),
+    SCLK_GMAC1             = CLK(RMII1_EXTCLK_SEL, 0U),
+    SCLK_GMAC0_RGMII_SPEED = CLK(RGMII0_CLK_SEL, 0U),
+    SCLK_GMAC1_RGMII_SPEED = CLK(RGMII1_CLK_SEL, 0U),
+    SCLK_GMAC0_RMII_SPEED  = CLK(RMII0_CLK_SEL, 0U),
+    SCLK_GMAC1_RMII_SPEED  = CLK(RMII1_CLK_SEL, 0U),
+    SCLK_GMAC0_RX_TX       = CLK(CLK_GMAC0_RX_TX_SEL, 0U),
+    SCLK_GMAC1_RX_TX       = CLK(CLK_GMAC1_RX_TX_SEL, 0U),
+    ACLK_PHP               = CLK(ACLK_PHP_SEL, 0U),
+    HCLK_PHP               = CLK(HCLK_PHP_SEL, 0U),
+    PCLK_PHP               = CLK(0U, PCLK_PHP_DIV),
+    ACLK_USB               = CLK(ACLK_USB_SEL, 0U),
+    HCLK_USB               = CLK(HCLK_USB_SEL, 0U),
+    PCLK_USB               = CLK(0U, PCLK_USB_DIV),
+    BCLK_EMMC              = CLK(BCLK_EMMC_SEL, 0U),
+    CCLK_EMMC              = CLK(CCLK_EMMC_SEL, 0U),
+    ACLK_SECURE_FLASH      = CLK(ACLK_SECURE_FLASH_SEL, 0U),
+    HCLK_SECURE_FLASH      = CLK(HCLK_SECURE_FLASH_SEL, 0U),
+    DCLK_SDMMC_BUFFER      = CLK(DCLK_SDMMC_BUFFER_SEL, 0U),
+    CLK_SDMMC0             = CLK(CLK_SDMMC0_SEL, 0U),
+    CLK_SDMMC1             = CLK(CLK_SDMMC1_SEL, 0U),
+    CLK_SDMMC2             = CLK(CLK_SDMMC2_SEL, 0U),
+    ACLK_PIPE              = CLK(ACLK_PIPE_SEL, 0U),
+    PCLK_PIPE              = CLK(0U, PCLK_PIPE_DIV),
+    CLK_PCIEPHY0_REF       = CLK(CLK_PCIEPHY0_REF_SEL, CLK_PCIEPHY0_REF_DIV),
+    CLK_PCIEPHY1_REF       = CLK(CLK_PCIEPHY1_REF_SEL, CLK_PCIEPHY1_REF_DIV),
+    CLK_PCIEPHY2_REF       = CLK(CLK_PCIEPHY2_REF_SEL, CLK_PCIEPHY2_REF_DIV),
 } eCLOCK_Name;
 #endif
 /****************************************MBOX********************************************/
@@ -214,6 +291,8 @@ typedef enum PD_Id {
     PD_UNKOWN,
 } ePD_Id;
 #endif
+/****************************************FSPI********************************************/
+#define FSPI_CHIP_CNT                            (2)
 
 #ifdef __cplusplus
 }
