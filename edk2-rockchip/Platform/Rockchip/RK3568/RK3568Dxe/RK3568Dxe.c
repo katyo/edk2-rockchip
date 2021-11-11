@@ -22,6 +22,7 @@
 #include <Protocol/LoadedImage.h>
 #include <Protocol/PlatformBootManager.h>
 #include <Protocol/PlatformVirtualKeyboard.h>
+#include <Protocol/AndroidBootImg.h>
 
 #include <Soc.h>
 #include <RK3568RegsPeri.h>
@@ -329,6 +330,11 @@ PLATFORM_VIRTUAL_KBD_PROTOCOL mVirtualKeyboard = {
   VirtualKeyboardClear
 };
 
+ANDROID_BOOTIMG_PROTOCOL mAndroidBootImageManager = {
+	  NULL,
+	  NULL
+};
+
 EFI_STATUS
 EFIAPI
 RK3568EntryPoint (
@@ -359,5 +365,17 @@ RK3568EntryPoint (
                   EFI_NATIVE_INTERFACE,
                   &mPlatformBootManager
                   );
+
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
+  Status = gBS->InstallProtocolInterface (
+                  &ImageHandle,
+                  &gAndroidBootImgProtocolGuid,
+                  EFI_NATIVE_INTERFACE,
+                  &mAndroidBootImageManager
+                  );
+  
   return Status;
 }

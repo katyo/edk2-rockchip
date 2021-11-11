@@ -36,6 +36,7 @@
   gEmbeddedGpioProtocolGuid
   gPlatformBootManagerProtocolGuid
   gPlatformVirtualKeyboardProtocolGuid
+  gAndroidBootImgProtocolGuid
 
 [Pcd]
   gRK3568TokenSpaceGuid.PcdAndroidBootDevicePath
