@@ -42,8 +42,8 @@ SerialPortInitialize (
   EFI_STOP_BITS_TYPE  StopBits;
 
   BaudRate = FixedPcdGet64 (PcdUartDefaultBaudRate);
-  ReceiveFifoDepth = 0;         // Use default FIFO depth
-  Parity = (EFI_PARITY_TYPE)0;//FixedPcdGet8 (PcdUartDefaultParity);
+  ReceiveFifoDepth = 0;  // Use default FIFO depth
+  Parity = (EFI_PARITY_TYPE)FixedPcdGet8 (PcdUartDefaultParity);
   DataBits = FixedPcdGet8 (PcdUartDefaultDataBits);
   StopBits = (EFI_STOP_BITS_TYPE) FixedPcdGet8 (PcdUartDefaultStopBits);
 

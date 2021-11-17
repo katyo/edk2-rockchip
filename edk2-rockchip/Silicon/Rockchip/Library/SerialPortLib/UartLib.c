@@ -86,6 +86,8 @@
 #define UART_RECEIVE_FIFO_NOT_EMPTY        (1<<3)
 #define UART_TRANSMIT_FIFO_FULL            (0)
 #define UART_TRANSMIT_FIFO_NOT_FULL        (1<<1)
+#define UART_TRANSMIT_FIFO_EMPTY           (1<<2)
+#define UART_IS_BUSY                       (1<<0)
 
 /* UART_SFE */
 #define SHADOW_FIFI_ENABLED                (1)
@@ -162,6 +164,9 @@ UartInitializePort (
   )
 {
   UINT32 Lcr, Rate;
+
+  do {} while ((MmioRead32(UartBase + UART_USR) & UART_IS_BUSY));
+
   // UART reset, rx fifo & tx fifo reset
   MmioWrite32(UartBase + UART_SRR, UART_RESET | RCVR_FIFO_REST | XMIT_FIFO_RESET);
 
@@ -186,34 +191,31 @@ UartInitializePort (
     Lcr |= LCR_WLS_7;
     break;
   case UART_BIT8:
+  default:
     Lcr |= LCR_WLS_8;
     break;
-  default:
-    return RETURN_INVALID_PARAMETER;
   }
 
   // Parity set
   switch (*Parity) {
-  case 0:
+  case NoParity:
     Lcr |= PARITY_DISABLED;
     break;
-  case 1:
+  case DefaultParity:
+  default:
     Lcr |= PARITY_ENABLED;
     break;
-  default:
-    return RETURN_INVALID_PARAMETER;
   }
-
   // stopbits set
   switch (*StopBits) {
-  case 0:
-    Lcr |= ONE_STOP_BIT;
-    break;
-  case 1:
-    Lcr |= ONE_HALF_OR_TWO_BIT;
-    break;
+  case TwoStopBits:
+  case OneFiveStopBits:
+	  Lcr |= ONE_HALF_OR_TWO_BIT;
+	  break;
+  case OneStopBit:
   default:
-    return RETURN_INVALID_PARAMETER;
+		Lcr |= ONE_STOP_BIT;
+		break;
   }
 
   MmioWrite32(UartBase + UART_LCR, Lcr);
@@ -226,7 +228,6 @@ UartInitializePort (
   MmioWrite32(UartBase + UART_LCR, Lcr | LCR_DLA_EN);
 
   MmioWrite32(UartBase + UART_DLL, Rate & 0xFF);
-
   MmioWrite32(UartBase + UART_DLH, (Rate >> 8) & 0xff);
   
   Lcr = MmioRead32(UartBase + UART_LCR);
