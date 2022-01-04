@@ -27,6 +27,10 @@
 /*!< brief Defines 'read / write' permissions */
 #define     __IO    volatile
 
+/* ================================================================================ */
+/* ================      Processor and Core Peripheral Section     ================ */
+/* ================================================================================ */
+#include "RK3588.h"
 #define RK3588_PERIPH_BASE      0xFC000000
 #define RK3588_PERIPH_SZ        0x04000000
 #ifdef __cplusplus
