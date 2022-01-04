@@ -47,4 +47,10 @@ void
 EFIAPI
 Rk806SpiIomux(void);
 
+UINT32
+EFIAPI
+I2cGetBase (
+   UINT32 id
+);
+
 #endif

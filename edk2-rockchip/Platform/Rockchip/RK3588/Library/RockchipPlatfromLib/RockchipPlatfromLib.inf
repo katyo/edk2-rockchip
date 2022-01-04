@@ -37,3 +37,5 @@
 
 [Pcd]
   gRockchipTokenSpaceGuid.PcdSdhciDxeBaseAddress
+  gRockchipTokenSpaceGuid.PcdI2cBusCount
+

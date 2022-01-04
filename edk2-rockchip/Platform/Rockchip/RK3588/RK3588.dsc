@@ -106,6 +106,16 @@
   # ARM PrimeCell
   #
 
+  # I2C
+  gRockchipTokenSpaceGuid.PcdI2cSlaveAddresses|{ 0x51 }
+  gRockchipTokenSpaceGuid.PcdI2cSlaveBuses|{ 0x2 }
+  gRockchipTokenSpaceGuid.PcdI2cControllersEnabled|{ 0x2 }
+  gRockchipTokenSpaceGuid.PcdI2cClockFrequency|198000000
+  gRockchipTokenSpaceGuid.PcdI2cBaudRate|100000
+  gRockchipTokenSpaceGuid.PcdI2cBusCount|1
+  gRockchipTokenSpaceGuid.PcdI2cDemoAddresses|{ 0x51 } #/* RTCYM8563TS 0x51@bus2 */
+  gRockchipTokenSpaceGuid.PcdI2cDemoBuses|{ 0x2 }
+
   ## UART2 - Serial Terminal
   DEFINE SERIAL_BASE = 0xFEB50000 # UART2
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|$(SERIAL_BASE)
@@ -228,7 +238,14 @@
   #
   EmbeddedPkg/Drivers/VirtualKeyboardDxe/VirtualKeyboardDxe.inf
 
+  # Platform drivers
   Platform/Rockchip/RK3588/RK3588Dxe/RK3588Dxe.inf
+
+  # I2C drivers
+  Silicon/Rockchip/Drivers/I2c/I2cDxe/I2cDxe.inf
+  MdeModulePkg/Bus/I2c/I2cDxe/I2cDxe.inf
+  Silicon/Rockchip/Drivers/I2c/I2cDemoDxe/I2cDemoDxe.inf
+  Silicon/Rockchip/Applications/I2cDemoTest/I2cDemoTest.inf
 
   #
   # MMC/SD
@@ -314,6 +331,7 @@
       NULL|ShellPkg/Library/UefiShellDriver1CommandsLib/UefiShellDriver1CommandsLib.inf
       NULL|ShellPkg/Library/UefiShellDebug1CommandsLib/UefiShellDebug1CommandsLib.inf
       NULL|ShellPkg/Library/UefiShellInstall1CommandsLib/UefiShellInstall1CommandsLib.inf
+      NULL|Silicon/Rockchip/Applications/I2cDemoTest/I2cDemoTest.inf
       #NULL|ShellPkg/Library/UefiShellNetwork1CommandsLib/UefiShellNetwork1CommandsLib.inf
       HandleParsingLib|ShellPkg/Library/UefiHandleParsingLib/UefiHandleParsingLib.inf
       OrderedCollectionLib|MdePkg/Library/BaseOrderedCollectionRedBlackTreeLib/BaseOrderedCollectionRedBlackTreeLib.inf
