@@ -65,6 +65,7 @@
   #PL011UartClockLib|ArmPlatformPkg/Library/PL011UartClockLib/PL011UartClockLib.inf
   #PL011UartLib|ArmPlatformPkg/Library/PL011UartLib/PL011UartLib.inf
 
+  PWMLib|Silicon/Rockchip/Library/PWMLib/PWMLib.inf
   SerialPortLib|Silicon/Rockchip/Library/SerialPortLib/SerialPortLib.inf
   UartLib|Silicon/Rockchip/Library/SerialPortLib/UartLib.inf
   TimerLib|ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib.inf
