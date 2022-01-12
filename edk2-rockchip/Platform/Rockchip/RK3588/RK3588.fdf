@@ -125,15 +125,6 @@ READ_LOCK_STATUS   = TRUE
   INF Platform/Rockchip/RK3588/RK3588Dxe/RK3588Dxe.inf
 
   #
-  # Multimedia Card Interface
-  #
-  #INF EmbeddedPkg/Universal/MmcDxe/MmcDxe.inf
-  #INF Silicon/Synopsys/DesignWare/Drivers/DwEmmcDxe/DwEmmcDxe.inf
-  INF Silicon/Rockchip/Drivers/MmcDxe/MmcDxe.inf
-  #INF Silicon/Rockchip/Drivers/DwEmmcDxe/DwEmmcDxe.inf
-  INF Silicon/Rockchip/Drivers/SdhciHostDxe/SdhciHostDxe.inf
-
-  #
   # USB Host Support
   #
   INF MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
@@ -175,6 +166,15 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/Disk/PartitionDxe/PartitionDxe.inf
   INF FatPkg/EnhancedFatDxe/Fat.inf
   INF MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
+
+  #
+  # Multimedia Card Interface
+  #
+  #INF EmbeddedPkg/Universal/MmcDxe/MmcDxe.inf
+  #INF Silicon/Synopsys/DesignWare/Drivers/DwEmmcDxe/DwEmmcDxe.inf
+  INF Silicon/Rockchip/Drivers/MmcDxe/MmcDxe.inf
+  #INF Silicon/Rockchip/Drivers/DwEmmcDxe/DwEmmcDxe.inf
+  INF Silicon/Rockchip/Drivers/SdhciHostDxe/SdhciHostDxe.inf
 
   INF MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
 

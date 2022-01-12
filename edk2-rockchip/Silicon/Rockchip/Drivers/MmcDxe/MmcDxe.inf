@@ -11,7 +11,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = MmcDxe
   FILE_GUID                      = b6f44cc0-9e45-11df-be21-0002a5d5c51b
-  MODULE_TYPE                    = DXE_DRIVER
+  MODULE_TYPE                    = UEFI_DRIVER
   VERSION_STRING                 = 1.0
 
   ENTRY_POINT                    = MmcDxeInitialize
