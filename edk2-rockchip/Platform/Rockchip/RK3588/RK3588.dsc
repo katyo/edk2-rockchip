@@ -79,6 +79,8 @@
   AndroidBootImgLib|edk2/EmbeddedPkg/Library/AndroidBootImgLib/AndroidBootImgLib.inf
 
   RockchipDisplayLib|Silicon/Rockchip/Library/DisplayLib/RockchipDisplayLib.inf
+  # to delete
+  AnalogixDpLib|Silicon/Rockchip/Library/DisplayLib/AnalogixDpLib.inf
 
 [LibraryClasses.common.SEC]
   PrePiLib|EmbeddedPkg/Library/PrePiLib/PrePiLib.inf

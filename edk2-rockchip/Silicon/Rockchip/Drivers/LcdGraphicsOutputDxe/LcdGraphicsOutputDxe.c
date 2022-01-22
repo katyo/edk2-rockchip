@@ -21,6 +21,9 @@
 
 #include "LcdGraphicsOutputDxe.h"
 
+//to delete
+#include <Library/AnalogixDpLib.h>
+
 //
 // Global variables
 //
@@ -276,6 +279,8 @@ InitializeDisplay (
       ConnectorState = &StateInterate->ConnectorState;
       Mode = &StateInterate->ConnectorState.DisplayMode;
 
+      //to delete
+      AnalogixDpConnectorInit (StateInterate);
       if (Connector && Connector->Init)
         Status = Connector->Init(Connector, StateInterate);
 
@@ -349,6 +354,9 @@ DisplayPreInit (
     if (StateInterate->IsEnable) {
       Crtc = (ROCKCHIP_CRTC_PROTOCOL*)StateInterate->CrtcState.Crtc;
       Connector = (ROCKCHIP_CONNECTOR_PROTOCOL *)StateInterate->ConnectorState.Connector;
+
+      //to delete
+      AnalogixDpConnectorPreInit(StateInterate);
 
       if (Connector && Connector->Preinit)
         Status = Connector->Preinit(Connector, StateInterate);
@@ -432,7 +440,8 @@ LcdGraphicsOutputDxeInitialize (
                                   (VOID **) &DisplayState->ConnectorState.Connector);
     if (EFI_ERROR (Status)) {
       DEBUG ((DEBUG_ERROR, "Can not locate the RockchipConnectorProtocol. Exit Status=%r\n", Status));
-      return EFI_INVALID_PARAMETER;
+      //to delete
+      //return EFI_INVALID_PARAMETER;
     }
 
     DisplayState->ConnectorState.OverScan.LeftMargin = mDefaultOverScanParas.LeftMargin;
@@ -590,6 +599,8 @@ LcdGraphicsSetMode (
   DISPLAY_STATE                   *StateInterate;
   ROCKCHIP_CRTC_PROTOCOL          *Crtc;
   ROCKCHIP_CONNECTOR_PROTOCOL     *Connector;
+  //to delete
+  struct AnalogixDpDevice *Dp;
 
   Instance = LCD_INSTANCE_FROM_GOP_THIS (This);
 
@@ -639,6 +650,10 @@ LcdGraphicsSetMode (
 
       if (Connector && Connector->Enable)
         Connector->Enable (Connector, StateInterate);
+
+      //to delete
+      Dp = AllocatePool(sizeof(*Dp));
+      AnalogixDpConnectorEnable(StateInterate, Dp);
     }
   }
 
