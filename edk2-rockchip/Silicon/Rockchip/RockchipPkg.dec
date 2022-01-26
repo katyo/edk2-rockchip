@@ -272,8 +272,8 @@
   gRockchipTokenSpaceGuid.Pcdsoctype|0|UINT32|0x00000061
   gRockchipTokenSpaceGuid.PcdSerDesFlowCtrlFlag|0|UINT32|0x40000056
 
+  gRockchipTokenSpaceGuid.SpiTestBaseAddr|0|UINT32|0x21200001
+  gRockchipTokenSpaceGuid.SpiRK806BaseAddr|0|UINT32|0x21200002
 [PcdsFeatureFlag]
   gRockchipTokenSpaceGuid.PcdIsItsSupported|FALSE|BOOLEAN|0x00000065
-
-
 
