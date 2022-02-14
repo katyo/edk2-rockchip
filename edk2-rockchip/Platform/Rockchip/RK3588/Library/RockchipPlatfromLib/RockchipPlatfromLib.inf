@@ -16,8 +16,8 @@
   EmbeddedPkg/EmbeddedPkg.dec
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
-  Platform/Rockchip/RK3568/RK3568.dec
-  Silicon/Rockchip/RK3568/RK3568.dec
+  Platform/Rockchip/RK3588/RK3588.dec
+  Silicon/Rockchip/RK3588/RK3588.dec
   Silicon/Rockchip/RockchipPkg.dec
 
 [LibraryClasses]

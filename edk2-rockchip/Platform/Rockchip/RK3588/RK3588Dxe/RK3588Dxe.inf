@@ -29,6 +29,8 @@
   UefiBootManagerLib
   UefiLib
   UefiDriverEntryPoint
+  SpiLib
+  RK806
 
 [Protocols]
   gEfiDevicePathFromTextProtocolGuid

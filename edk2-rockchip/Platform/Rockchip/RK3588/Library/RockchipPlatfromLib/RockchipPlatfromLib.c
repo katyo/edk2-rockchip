@@ -6,6 +6,7 @@
 *
 **/
 #include <Library/DebugLib.h>
+#include <Library/IoLib.h>
 #include <Soc.h>
 
 void DebugPrintHex(void *buf, UINT32 width, UINT32 len)
@@ -40,3 +41,17 @@ void DwEmmcDxeIoMux(void)
   /* sdmmc0 iomux */
 }
 
+#define NS_CRU_BASE         0xFD7C0000
+#define CRU_CLKSEL_CON59    0x03EC
+
+void
+EFIAPI
+Rk806SpiIomux(void)
+{
+  /* io mux */
+  //BUS_IOC->GPIO1A_IOMUX_SEL_H = (0xFFFFUL << 16) | 0x8888;
+  //BUS_IOC->GPIO1B_IOMUX_SEL_L = (0x000FUL << 16) | 0x0008;
+  PMU1_IOC->GPIO0A_IOMUX_SEL_H = (0x0FF0UL << 16) | 0x0110;
+  PMU1_IOC->GPIO0B_IOMUX_SEL_L = (0xF0FFUL << 16) | 0x1011;
+  MmioWrite32(NS_CRU_BASE + CRU_CLKSEL_CON59, (0x00C0UL << 16) | 0x0080);
+}

@@ -43,4 +43,8 @@ SdhciGetClockRate (
   OUT UINTN *BaseFreq
   );
 
+void
+EFIAPI
+Rk806SpiIomux(void);
+
 #endif

@@ -76,7 +76,7 @@
   PrePiHobListPointerLib|ArmPlatformPkg/Library/PrePiHobListPointerLib/PrePiHobListPointerLib.inf
 
 [BuildOptions]
-  GCC:*_*_*_PLATFORM_FLAGS = -I$(WORKSPACE)/Silicon/Rockchip/RK3588/Include -I$(WORKSPACE)/Platform/Rockchip/RK3588/Include
+  GCC:*_*_*_PLATFORM_FLAGS = -I$(WORKSPACE)/Silicon/Rockchip/RK3588/Include -I$(WORKSPACE)/Platform/Rockchip/RK3588/Include -I$(WORKSPACE)/Silicon/Rockchip/Include
 
 ################################################################################
 #
@@ -113,7 +113,10 @@
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultDataBits|8
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultParity|1
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultStopBits|1
-  
+
+  ## SPI - SPI2 for test
+  gRockchipTokenSpaceGuid.SpiTestBaseAddr|0xFEB20000
+  gRockchipTokenSpaceGuid.SpiRK806BaseAddr|0xFEB20000
   ## PL031 RealTimeClock
   #gArmPlatformTokenSpaceGuid.PcdPL031RtcBase|0xF8003000
 
@@ -235,6 +238,12 @@
   Silicon/Rockchip/Drivers/MmcDxe/MmcDxe.inf
   #Silicon/Rockchip/Drivers/DwEmmcDxe/DwEmmcDxe.inf
   Silicon/Rockchip/Drivers/SdhciHostDxe/SdhciHostDxe.inf
+
+
+  #
+  # SPI TEST
+  #
+  # Silicon/Rockchip/Library/SpiLib/SpiTest.inf
 
   #
   # USB Host Support

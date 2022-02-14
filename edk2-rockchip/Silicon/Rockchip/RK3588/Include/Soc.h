@@ -27,6 +27,11 @@
 /*!< brief Defines 'read / write' permissions */
 #define     __IO    volatile
 
+/**< Write the register */
+#define WRITE_REG(REG, VAL)  ((*(volatile uint32_t *)&(REG)) = (VAL))
+/**< Read the register */
+#define READ_REG(REG)        ((*(volatile const uint32_t *)&(REG)))
+#define DIV_ROUND_UP(x, y) (((x) + (y) - 1) / (y))
 /* ================================================================================ */
 /* ================      Processor and Core Peripheral Section     ================ */
 /* ================================================================================ */
