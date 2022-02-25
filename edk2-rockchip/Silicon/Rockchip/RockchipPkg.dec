@@ -284,6 +284,11 @@
 
   gRockchipTokenSpaceGuid.SpiTestBaseAddr|0|UINT32|0x21200001
   gRockchipTokenSpaceGuid.SpiRK806BaseAddr|0|UINT32|0x21200002
+
+  gRockchipTokenSpaceGuid.PcdEhciBaseAddress|0|UINT32|0x50000060
+  gRockchipTokenSpaceGuid.PcdNumEhciController|0|UINT32|0x50000061
+  gRockchipTokenSpaceGuid.PcdEhciSize|0|UINT32|0x50000062
+
 [PcdsFeatureFlag]
   gRockchipTokenSpaceGuid.PcdIsItsSupported|FALSE|BOOLEAN|0x00000065
 

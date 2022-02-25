@@ -132,6 +132,11 @@ READ_LOCK_STATUS   = TRUE
   INF Platform/Rockchip/RK3588/RK3588Dxe/RK3588Dxe.inf
 
   #
+  # USB Ehci Controller
+  #
+  INF Silicon/Rockchip/Drivers/EhciDxe/EhciDxe.inf
+
+  #
   # USB Host Support
   #
   INF MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
@@ -140,6 +145,21 @@ READ_LOCK_STATUS   = TRUE
   # USB Mass Storage Support
   #
   INF MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
+
+  #
+  # USB Kb Support
+  #
+  INF MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+
+  #
+  # USB Mouse Support
+  #
+  INF MdeModulePkg/Bus/Usb/UsbMouseDxe/UsbMouseDxe.inf
+
+  #
+  # USB MouseAbsolutePointer Support
+  #
+  INF MdeModulePkg/Bus/Usb/UsbMouseAbsolutePointerDxe/UsbMouseAbsolutePointerDxe.inf
 
   #
   # USB Peripheral Support

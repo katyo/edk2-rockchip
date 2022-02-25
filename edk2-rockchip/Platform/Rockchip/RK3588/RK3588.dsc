@@ -40,6 +40,8 @@
   RockchipPlatfromLib|Platform/Rockchip/RK3588/Library/RockchipPlatfromLib/RockchipPlatfromLib.inf
 # CruLib|Silicon/Rockchip/Library/CruLib/CruLib.inf
 
+  DmaLib|EmbeddedPkg/Library/NonCoherentDmaLib/NonCoherentDmaLib.inf
+
   CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
   UefiBootManagerLib|MdeModulePkg/Library/UefiBootManagerLib/UefiBootManagerLib.inf
 
@@ -74,7 +76,6 @@
   MemoryInitPeiLib|ArmPlatformPkg/MemoryInitPei/MemoryInitPeiLib.inf
   PlatformPeiLib|ArmPlatformPkg/PlatformPei/PlatformPeiLib.inf
   PrePiHobListPointerLib|ArmPlatformPkg/Library/PrePiHobListPointerLib/PrePiHobListPointerLib.inf
-
 [BuildOptions]
   GCC:*_*_*_PLATFORM_FLAGS = -I$(WORKSPACE)/Silicon/Rockchip/RK3588/Include -I$(WORKSPACE)/Platform/Rockchip/RK3588/Include -I$(WORKSPACE)/Silicon/Rockchip/Include
 
@@ -163,6 +164,14 @@
   #
   gEmbeddedTokenSpaceGuid.PcdAndroidFastbootUsbVendorId|0x2207
   gEmbeddedTokenSpaceGuid.PcdAndroidFastbootUsbProductId|0x0001
+
+  #
+  # USB2 EHCI controller
+  #
+  gRockchipTokenSpaceGuid.PcdEhciBaseAddress|0xfc800000
+  gRockchipTokenSpaceGuid.PcdNumEhciController|2
+  gRockchipTokenSpaceGuid.PcdEhciSize|0x80000
+
 
   #
   # Android Loader
@@ -263,6 +272,11 @@
   # Silicon/Rockchip/Library/SpiLib/SpiTest.inf
 
   #
+  # USB Ehci Controller
+  #
+  Silicon/Rockchip/Drivers/EhciDxe/EhciDxe.inf
+
+  #
   # USB Host Support
   #
   MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
@@ -271,6 +285,21 @@
   # USB Mass Storage Support
   #
   MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
+
+  #
+  # USB Kb Support
+  #
+  MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+
+  #
+  # USB Mouse Support
+  #
+  MdeModulePkg/Bus/Usb/UsbMouseDxe/UsbMouseDxe.inf
+
+  #
+  # USB MouseAbsolutePointer Support
+  #
+  MdeModulePkg/Bus/Usb/UsbMouseAbsolutePointerDxe/UsbMouseAbsolutePointerDxe.inf
 
   #
   # USB Peripheral Support
