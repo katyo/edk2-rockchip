@@ -116,13 +116,13 @@ READ_LOCK_STATUS   = TRUE
   #
   INF Platform/Rockchip/RK3588/RK3588GpioDxe/RK3588GpioDxe.inf
   #INF ArmPlatformPkg/Drivers/PL061GpioDxe/PL061GpioDxe.inf
- 
+
   #
   # I2C
   #
   INF Silicon/Rockchip/Drivers/I2c/I2cDxe/I2cDxe.inf
   INF MdeModulePkg/Bus/I2c/I2cDxe/I2cDxe.inf
-  INF Silicon/Rockchip/Drivers/I2c/I2cDemoDxe/I2cDemoDxe.inf
+  # INF Silicon/Rockchip/Drivers/I2c/I2cDemoDxe/I2cDemoDxe.inf
 
   #
   # Virtual Keyboard

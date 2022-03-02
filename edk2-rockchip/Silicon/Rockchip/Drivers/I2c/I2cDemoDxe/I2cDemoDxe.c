@@ -54,7 +54,7 @@ I2cDemoSupported (
       EFI_OPEN_PROTOCOL_BY_DRIVER
       );
   if (EFI_ERROR(Status)) {
-    DEBUG ((DEBUG_ERROR, "I2cDemoSupported Error status: %d\n", Status));
+    DEBUG ((DEBUG_INFO, "I2cDemoSupported Error status: %d\n", Status));
     return EFI_UNSUPPORTED;
   }
 
@@ -63,7 +63,7 @@ I2cDemoSupported (
   I2cDemoBuses = PcdGetPtr (PcdI2cDemoBuses);
   if (I2cDemoAddresses == 0) {
     Status = EFI_UNSUPPORTED;
-    DEBUG((DEBUG_ERROR, "I2cDemoSupported: I2C device found, but it's not I2CDEMO\n"));
+    DEBUG((DEBUG_INFO, "I2cDemoSupported: I2C device found, but it's not I2CDEMO\n"));
     goto out;
   }
 
@@ -73,7 +73,7 @@ I2cDemoSupported (
     if (CompareGuid(TmpI2cIo->DeviceGuid, &I2cGuid) &&
         TmpI2cIo->DeviceIndex == I2C_DEVICE_INDEX(I2cDemoBuses[i],
           I2cDemoAddresses[i])) {
-      DEBUG ((DEBUG_ERROR,  "I2cDemoSupported: attached to I2CDEMO device\n"));
+      DEBUG ((DEBUG_INFO,  "I2cDemoSupported: attached to I2CDEMO device\n"));
       Status = EFI_SUCCESS;
       break;
     }
@@ -125,7 +125,7 @@ I2cDemoRead (
 
   Status = I2cDemoContext->I2cIo->QueueRequest(I2cDemoContext->I2cIo, 0, NULL, RequestPacket, NULL);
   if (EFI_ERROR(Status))
-    DEBUG((DEBUG_ERROR, "I2cDemoTransfer: error %d during transmission\n", Status));
+    DEBUG((DEBUG_INFO, "I2cDemoTransfer: error %d during transmission\n", Status));
 
   FreePool(RequestPacket);
 
@@ -175,7 +175,7 @@ I2cDemoWrite (
 
   Status = I2cDemoContext->I2cIo->QueueRequest(I2cDemoContext->I2cIo, 0, NULL, RequestPacket, NULL);
   if (EFI_ERROR(Status))
-    DEBUG((DEBUG_ERROR, "I2cDemoTransfer: error %d during transmission\n", Status));
+    DEBUG((DEBUG_INFO, "I2cDemoTransfer: error %d during transmission\n", Status));
 
   FreePool(Data);
   FreePool(RequestPacket);
