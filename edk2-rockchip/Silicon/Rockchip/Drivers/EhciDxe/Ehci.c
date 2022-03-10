@@ -1488,12 +1488,8 @@ EhciInitialise (
   EFI_STATUS    Status;
   UINT32        Index;
   UINT32        EhciNum;
-  //Enable Ehci port 5V Power
-  MmioWrite32(0xFEC50000, 0x01000100);
-  MmioWrite32(0xFEC50008, 0x01000100);
-  //Enable Ehci Clk
-  //MmioWrite32(0xFD820338, 0xff77f633);
-  //MmioWrite32(0xFD820810, 0xce89860f);
+
+  UsbPortPowerEnable();
 
   /* Initialize enabled chips */
   EhciNum = PcdGet32(PcdNumEhciController);

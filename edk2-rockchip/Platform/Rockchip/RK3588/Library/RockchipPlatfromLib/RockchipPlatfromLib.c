@@ -99,3 +99,16 @@ I2cGetBase (
   return Base;
 }
 
+
+#define GPIO4_BASE         0xFEC50000
+#define GPIO_SWPORT_DR_L   0x0000
+#define GPIO_SWPORT_DDR_L  0x0008
+
+void
+EFIAPI
+UsbPortPowerEnable (void)
+{
+  MmioWrite32(GPIO4_BASE + GPIO_SWPORT_DR_L, (0x0100UL << 16) | 0x0100);
+  MmioWrite32(GPIO4_BASE + GPIO_SWPORT_DDR_L, (0x0100UL << 16) | 0x0100);
+}
+

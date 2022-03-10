@@ -11,7 +11,6 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #ifndef _EFI_EHCI_H_
 #define _EFI_EHCI_H_
 
-
 #include <Uefi.h>
 
 #include <Protocol/Usb2HostController.h>
@@ -19,6 +18,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 #include <Guid/EventGroup.h>
 
+#include <Library/RockchipPlatfromLib.h>
 #include <Library/DebugLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/UefiDriverEntryPoint.h>

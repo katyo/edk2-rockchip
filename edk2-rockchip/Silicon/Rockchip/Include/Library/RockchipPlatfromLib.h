@@ -53,4 +53,8 @@ I2cGetBase (
    UINT32 id
 );
 
+void
+EFIAPI
+UsbPortPowerEnable (void);
+
 #endif
