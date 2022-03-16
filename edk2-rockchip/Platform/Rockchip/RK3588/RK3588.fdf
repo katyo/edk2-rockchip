@@ -110,6 +110,13 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
 
   INF MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
+#
+# ACPI Support
+#
+!ifdef $(ROCKCHIP_ACPIEN)
+  INF MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
+  INF RuleOverride = ACPITABLE Platform/Rockchip/RK3588/AcpiTables/AcpiTables.inf
+!endif
 
   #
   # GPIO
@@ -251,3 +258,20 @@ READ_LOCK_STATUS   = TRUE
   }
 
 !include Silicon/Rockchip/Rockchip.fdf.inc
+
+!ifdef $(ROCKCHIP_ACPIEN)
+[Rule.Common.DXE_DRIVER]
+  FILE DRIVER = $(NAMED_GUID) {
+    DXE_DEPEX	 DXE_DEPEX		Optional $(INF_OUTPUT)/$(MODULE_NAME).depex
+    PE32	 PE32			$(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI		 STRING="$(MODULE_NAME)" Optional
+    RAW 	 ACPI  Optional 	      |.acpi
+    RAW 	 ASL   Optional 	      |.aml
+  }
+
+[Rule.Common.USER_DEFINED.ACPITABLE]
+  FILE FREEFORM = $(NAMED_GUID) {
+    RAW ACPI		   |.acpi
+    RAW ASL		   |.aml
+  }
+!endif

@@ -36,6 +36,7 @@
 
 [LibraryClasses.common]
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
+  AcpiLib|EmbeddedPkg/Library/AcpiLib/AcpiLib.inf
   ArmPlatformLib|Platform/Rockchip/RK3588/Library/RK3588Lib/RK3588Lib.inf
   RockchipPlatfromLib|Platform/Rockchip/RK3588/Library/RockchipPlatfromLib/RockchipPlatfromLib.inf
 # CruLib|Silicon/Rockchip/Library/CruLib/CruLib.inf
@@ -185,6 +186,10 @@
   #
   gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
 
+# ACPI Enable
+!ifdef $(ROCKCHIP_ACPIEN)
+  gRK3588TokenSpaceGuid.AcpiEnable|TRUE
+!endif
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
@@ -235,6 +240,14 @@
   MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
 
   MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
+
+  #
+  # ACPI Support
+  #
+!ifdef $(ROCKCHIP_ACPIEN)
+  MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
+  Platform/Rockchip/RK3588/AcpiTables/AcpiTables.inf
+!endif
 
   #
   # GPIO

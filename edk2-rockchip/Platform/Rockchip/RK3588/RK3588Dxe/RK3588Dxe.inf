@@ -25,6 +25,7 @@
 [LibraryClasses]
   CacheMaintenanceLib
   DebugLib
+  AcpiLib
   IoLib
   UefiBootManagerLib
   UefiLib
@@ -45,6 +46,7 @@
   gRK3588TokenSpaceGuid.PcdAndroidBootFile
   gRK3588TokenSpaceGuid.PcdAndroidFastbootFile
   gRK3588TokenSpaceGuid.PcdSdBootDevicePath
+  gRK3588TokenSpaceGuid.AcpiEnable
 
 [Guids]
   gEfiEndOfDxeEventGroupGuid

@@ -16,7 +16,7 @@
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
 #include <Library/RK806.h>
-
+#include <Library/AcpiLib.h>
 #include <Protocol/DevicePath.h>
 #include <Protocol/DevicePathFromText.h>
 #include <Protocol/EmbeddedGpio.h>
@@ -393,6 +393,10 @@ ANDROID_BOOTIMG_PROTOCOL mAndroidBootImageManager = {
 	  NULL
 };
 
+STATIC CONST EFI_GUID mAcpiTableFile = {
+  0x7E374E25, 0x8E01, 0x4FEE, { 0x87, 0xf2, 0x39, 0x0C, 0x23, 0xC6, 0x06, 0xCD }
+};
+
 EFI_STATUS
 EFIAPI
 RK3588EntryPoint (
@@ -405,6 +409,10 @@ RK3588EntryPoint (
   Status = RK3588InitPeripherals ();
   if (EFI_ERROR (Status)) {
     return Status;
+  }
+
+  if(PcdGetBool (AcpiEnable)) {
+    LocateAndInstallAcpiFromFvConditional (&mAcpiTableFile, NULL);
   }
 
   Status = gBS->InstallProtocolInterface (
@@ -434,6 +442,6 @@ RK3588EntryPoint (
                   EFI_NATIVE_INTERFACE,
                   &mAndroidBootImageManager
                   );
-  
+
   return Status;
 }
