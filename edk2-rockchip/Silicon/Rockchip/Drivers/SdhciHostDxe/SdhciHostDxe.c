@@ -10,6 +10,9 @@
 #include "SdhciHostDxe.h"
 #include <Library/PcdLib.h>
 #include <Library/RockchipPlatfromLib.h>
+#include <Library/CacheMaintenanceLib.h>
+
+#define CONFIG_MMC_SDHCI_SDMA
 
 //#define SDHCI_MAX_RETRY_COUNT (1000 * 20)
 
@@ -20,6 +23,7 @@
 #define MMCHS2_BASE       (BCM2836_SOC_REGISTERS + MMCHS2_OFFSET)
 #define MMCHS1_LENGTH     0x00000100
 #define MMCHS2_LENGTH     0x00000100
+#define MMCHS_DMA_ADDRESS  (mMmcHsBase + 0x0)
 
 #define MMCHS_BLK_SIZE     (mMmcHsBase + 0x4)
 #define MMCHS_BLK_COUNT    (mMmcHsBase + 0x6)
@@ -105,6 +109,12 @@
 #define SDVS_3_0_V        (0x6UL << 9)
 #define SDVS_3_3_V        (0x7UL << 9)
 #define IWE               BIT24
+
+#define SDHCI_CTRL_LED          BIT0
+#define SDHCI_CTRL_4BITBUS      BIT1
+#define SDHCI_CTRL_HISPD        BIT2
+#define SDHCI_CTRL_DMA_MASK     0x18
+#define SDHCI_CTRL_SDMA         0x00
 
 #define MMCHS_SYSCTL      (mMmcHsBase + 0x2C)
 #define ICE               BIT0
@@ -607,16 +617,21 @@ SdhciTransferPio(
   }
 }
 
-
-
-EFI_STATUS
+STATIC EFI_STATUS
 SdhciTransferData(
   IN EFI_MMC_HOST_PROTOCOL  *This,
-  IN SDHCI_DATA             *data
+  IN SDHCI_DATA             *data,
+  IN UINTN StartAddr
   )
 {
   unsigned int stat, rdy, mask, timeout, block = 0;
   BOOLEAN transfer_done = FALSE;
+#ifdef CONFIG_MMC_SDHCI_SDMA
+  unsigned char ctrl;
+  ctrl = MmioRead8(MMCHS_HCTL);
+  ctrl &= ~SDHCI_CTRL_DMA_MASK;
+  MmioWrite8(MMCHS_HCTL, ctrl);
+#endif
 
   timeout = 1000000;
   rdy = SDHCI_INT_SPACE_AVAIL | SDHCI_INT_DATA_AVAIL;
@@ -642,6 +657,14 @@ SdhciTransferData(
         continue;
       }
     }
+#ifdef CONFIG_MMC_SDHCI_SDMA
+  if (!transfer_done && (stat & SDHCI_INT_DMA_END)) {
+    MmioWrite32(MMCHS_INT_STAT, SDHCI_INT_DMA_END);
+    StartAddr &= ~(SDHCI_DEFAULT_BOUNDARY_SIZE - 1);
+    StartAddr += SDHCI_DEFAULT_BOUNDARY_SIZE;
+    MmioWrite32 (MMCHS_DMA_ADDRESS, (UINT32)StartAddr);
+  }
+#endif
 
     if (timeout-- > 0)
       gBS->Stall (STALL_AFTER_RETRY_US);
@@ -1081,11 +1104,17 @@ MMCReadBlockData (
   EFI_STATUS Status = EFI_SUCCESS;
   SDHCI_DATA *data = &gSdhciData;
   UINT32 cmd = 0;
+  UINTN StartAddr = (UINTN)Buffer;
 
   DEBUG ((DEBUG_MMCHOST_SD, "%a(%u): LBA: 0x%x, Length: 0x%x, Buffer: 0x%x)\n", __FUNCTION__, __LINE__, Lba, Length, Buffer));
 
   if (Buffer == NULL) {
     DEBUG ((DEBUG_ERROR, "%a(%u): NULL Buffer\n", __FUNCTION__, __LINE__));
+    return EFI_INVALID_PARAMETER;
+  }
+
+  if ((StartAddr & 0x7) != 0x0) {
+    DEBUG ((DEBUG_ERROR, "%a(%u): Buffer need 8 Byte align\n", __FUNCTION__, __LINE__));
     return EFI_INVALID_PARAMETER;
   }
 
@@ -1109,21 +1138,26 @@ MMCReadBlockData (
   Mode = SDHCI_TRNS_BLK_CNT_EN | SDHCI_TRNS_READ;
   if (data->blocks > 1)
     Mode |= SDHCI_TRNS_MULTI;
+#ifdef CONFIG_MMC_SDHCI_SDMA
+  MmioWrite32 (MMCHS_DMA_ADDRESS, (UINT32)StartAddr);
+  Mode |= SDHCI_TRNS_DMA;
+  InvalidateDataCacheRange (Buffer, Length);
+#endif
   //MmioWrite16 (MMCHS_TRANS_MODE, Mode);
   cmd = (mMmcDataCommand & 0xFFFF0000) | Mode;
   Status = SdhciSendCommand(This, cmd, mMmcDataArgument, CMDI_MASK /*| DATI_MASK*/);
   if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_ERROR, "%a(%u): bad cmd %x\n", __FUNCTION__, __LINE__, mMmcDataCommand)); 
+    DEBUG ((DEBUG_ERROR, "%a(%u): bad cmd %x\n", __FUNCTION__, __LINE__, mMmcDataCommand));
     goto Exit;
   }
 
-  Status = SdhciTransferData(This, data);
+  Status = SdhciTransferData(This, data, StartAddr);
   if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_ERROR, "%a(%u): SdhciTransferData fail!\n", __FUNCTION__, __LINE__)); 
+    DEBUG ((DEBUG_ERROR, "%a(%u): SdhciTransferData fail!\n", __FUNCTION__, __LINE__));
     goto Exit;
   }
-  
-  Exit:
+
+Exit:
   //stat = MmioRead32(MMCHS_INT_STAT);
   MmioWrite32 (MMCHS_INT_STAT, ALL_EN & ~(CARD_INS));
   SdhciSoftReset(SRC | SRD);
@@ -1142,12 +1176,18 @@ MMCWriteBlockData (
   EFI_STATUS Status = EFI_SUCCESS;
   SDHCI_DATA *data = &gSdhciData;
   UINT32 cmd = 0;
+  UINTN StartAddr = (UINTN)Buffer;
 
   DEBUG ((DEBUG_VERBOSE, "%a(%u): LBA: 0x%x, Length: 0x%x, Buffer: 0x%x)\n",
     __FUNCTION__, __LINE__, Lba, Length, Buffer));
 
   if (Buffer == NULL) {
     DEBUG ((DEBUG_ERROR, "%a(%u): NULL Buffer\n", __FUNCTION__, __LINE__));
+    return EFI_INVALID_PARAMETER;
+  }
+
+  if ((StartAddr & 0x7) != 0x0) {
+    DEBUG ((DEBUG_ERROR, "%a(%u): Buffer need 8 Byte align\n", __FUNCTION__, __LINE__));
     return EFI_INVALID_PARAMETER;
   }
 
@@ -1165,18 +1205,23 @@ MMCWriteBlockData (
   Mode = SDHCI_TRNS_BLK_CNT_EN;
   if (data->blocks > 1)
     Mode |= SDHCI_TRNS_MULTI;
-  //MmioWrite16 (MMCHS_TRANS_MODE, Mode);
+
+#ifdef CONFIG_MMC_SDHCI_SDMA
+  MmioWrite32 (MMCHS_DMA_ADDRESS, (UINT32)StartAddr);
+  Mode |= SDHCI_TRNS_DMA;
+  WriteBackDataCacheRange (Buffer, Length);
+#endif
 
   cmd = (mMmcDataCommand & 0xFFFF0000) | Mode;
   Status = SdhciSendCommand(This, cmd, mMmcDataArgument, CMDI_MASK /*| DATI_MASK*/);
   if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_ERROR, "%a(%u): bad cmd %x\n", __FUNCTION__, __LINE__, mMmcDataCommand));	
+    DEBUG ((DEBUG_ERROR, "%a(%u): bad cmd %x\n", __FUNCTION__, __LINE__, mMmcDataCommand));
     goto Exit;
   }
-  
-  Status = SdhciTransferData(This, data);
+
+  Status = SdhciTransferData(This, data, StartAddr);
   if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_ERROR, "%a(%u): SdhciTransferData fail!\n", __FUNCTION__, __LINE__));	
+    DEBUG ((DEBUG_ERROR, "%a(%u): SdhciTransferData fail!\n", __FUNCTION__, __LINE__));
     goto Exit;
   }
 
