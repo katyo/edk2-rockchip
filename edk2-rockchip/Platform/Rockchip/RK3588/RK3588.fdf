@@ -103,6 +103,7 @@ READ_LOCK_STATUS   = TRUE
   #
   INF MdeModulePkg/Universal/Console/ConPlatformDxe/ConPlatformDxe.inf
   INF MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
+  INF MdeModulePkg/Universal/Console/GraphicsConsoleDxe/GraphicsConsoleDxe.inf
   INF MdeModulePkg/Universal/SerialDxe/SerialDxe.inf
 
   INF ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
@@ -142,6 +143,14 @@ READ_LOCK_STATUS   = TRUE
   # Virtual Keyboard
   #
   INF EmbeddedPkg/Drivers/VirtualKeyboardDxe/VirtualKeyboardDxe.inf
+
+  #
+  # Display Support
+  #
+  INF Silicon/Rockchip/Drivers/Vop2Dxe/Vop2Dxe.inf
+  INF Silicon/Rockchip/Drivers/LcdGraphicsOutputDxe/LcdGraphicsOutputDxe.inf
+  INF Platform/Rockchip/RK3588/LogoDxe/LogoDxe.inf
+  INF Platform/Rockchip/RK3588/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
 
   INF Platform/Rockchip/RK3588/RK3588Dxe/RK3588Dxe.inf
 
