@@ -144,6 +144,11 @@ READ_LOCK_STATUS   = TRUE
   INF Silicon/Rockchip/Drivers/EhciDxe/EhciDxe.inf
 
   #
+  # USB Ohci Controller
+  #
+  INF Silicon/Rockchip/Drivers/OhciDxe/OhciDxe.inf
+
+  #
   # USB Host Support
   #
   INF MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
