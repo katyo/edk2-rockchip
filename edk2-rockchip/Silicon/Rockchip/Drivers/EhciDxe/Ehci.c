@@ -1490,7 +1490,8 @@ EhciInitialise (
   UINT32        EhciNum;
 
   UsbPortPowerEnable();
-
+  Usb2PhyResume();
+  gBS->Stall(1000);
   /* Initialize enabled chips */
   EhciNum = PcdGet32(PcdNumEhciController);
   for(Index = 0; Index < EhciNum; Index++) {
@@ -1499,6 +1500,7 @@ EhciInitialise (
           );
     DEBUG ((EFI_D_ERROR, "EhciInitialise EhciInitialiseController %d Status = %r\n",Index, Status));
   }
+
   Status = gBS->CreateEventEx (EVT_NOTIFY_SIGNAL,
                   TPL_CALLBACK,
                   OnEndOfDxe,

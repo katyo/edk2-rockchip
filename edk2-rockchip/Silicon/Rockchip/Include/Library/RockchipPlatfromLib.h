@@ -57,4 +57,12 @@ void
 EFIAPI
 UsbPortPowerEnable (void);
 
+void
+EFIAPI
+Usb2PhySuspend (void);
+
+void
+EFIAPI
+Usb2PhyResume (void);
+
 #endif
