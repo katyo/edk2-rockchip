@@ -1,5 +1,6 @@
 #
 #  Copyright (c) 2014-2018, Linaro Limited. All rights reserved.
+#  Copyright (c) 2021-2022, Rockchip Limited. All rights reserved.
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
@@ -209,14 +210,22 @@ READ_LOCK_STATUS   = TRUE
   #
   # Multimedia Card Interface
   #
-  #INF EmbeddedPkg/Universal/MmcDxe/MmcDxe.inf
   #INF Silicon/Synopsys/DesignWare/Drivers/DwEmmcDxe/DwEmmcDxe.inf
   INF Silicon/Rockchip/Drivers/MmcDxe/MmcDxe.inf
   #INF Silicon/Rockchip/Drivers/DwEmmcDxe/DwEmmcDxe.inf
   INF Silicon/Rockchip/Drivers/SdhciHostDxe/SdhciHostDxe.inf
 
-  INF MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
+  #
+  # SPI NOR FLASH
+  #
+  INF Silicon/Rockchip/Drivers/NorFlashDxe/NorFlashDxe.inf
 
+  # Variable services
+  INF Silicon/Rockchip/Drivers/NorFlashDxe/RkFvbDxe.inf
+  INF MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
+  INF MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
+
+  # Human interface
   INF MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
 
   #
@@ -226,6 +235,7 @@ READ_LOCK_STATUS   = TRUE
 !ifdef $(INCLUDE_TFTP_COMMAND)
   INF ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
 !endif #$(INCLUDE_TFTP_COMMAND)
+  #INF Silicon/Rockchip/Applications/SpiTool/SpiFlashCmd.inf
 
   #
   # Bds

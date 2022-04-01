@@ -1,5 +1,6 @@
 #
 #  Copyright (c) 2014-2018, Linaro Limited. All rights reserved.
+#  Copyright (c) 2021-2022, Rockchip Limited. All rights reserved.
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
@@ -132,6 +133,9 @@
   ## PL031 RealTimeClock
   #gArmPlatformTokenSpaceGuid.PcdPL031RtcBase|0xF8003000
 
+  ## NOR FLASH
+  gRockchipTokenSpaceGuid.FspiBaseAddr|0xFE2B0000
+  gRockchipTokenSpaceGuid.PcdSpiVariableOffset|0x3C0000
   #
   # ARM General Interrupt Controller
   #
@@ -192,6 +196,11 @@
   #
   gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
 
+[PcdsDynamicDefault.common]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64|0x803C0000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase64|0x803E0000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase64|0x803D0000
+
 # ACPI Enable
 !ifdef $(ROCKCHIP_ACPIEN)
   gRK3588TokenSpaceGuid.AcpiEnable|TRUE
@@ -239,6 +248,7 @@
   MdeModulePkg/Universal/SerialDxe/SerialDxe.inf
 
   MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
+  MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
 
   ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
   ArmPkg/Drivers/TimerDxe/TimerDxe.inf
@@ -284,6 +294,12 @@
   #Silicon/Rockchip/Drivers/DwEmmcDxe/DwEmmcDxe.inf
   Silicon/Rockchip/Drivers/SdhciHostDxe/SdhciHostDxe.inf
 
+  #
+  # NOR FLASH
+  #
+  Silicon/Rockchip/Drivers/NorFlashDxe/NorFlashDxe.inf
+  Silicon/Rockchip/Drivers/NorFlashDxe/RkFvbDxe.inf
+  Silicon/Rockchip/Applications/SpiTool/SpiFlashCmd.inf
 
   #
   # SPI TEST
@@ -385,6 +401,7 @@
       NULL|ShellPkg/Library/UefiShellDebug1CommandsLib/UefiShellDebug1CommandsLib.inf
       NULL|ShellPkg/Library/UefiShellInstall1CommandsLib/UefiShellInstall1CommandsLib.inf
       NULL|Silicon/Rockchip/Applications/I2cDemoTest/I2cDemoTest.inf
+      NULL|Silicon/Rockchip/Applications/SpiTool/SpiFlashCmd.inf
       #NULL|ShellPkg/Library/UefiShellNetwork1CommandsLib/UefiShellNetwork1CommandsLib.inf
       HandleParsingLib|ShellPkg/Library/UefiHandleParsingLib/UefiHandleParsingLib.inf
       OrderedCollectionLib|MdePkg/Library/BaseOrderedCollectionRedBlackTreeLib/BaseOrderedCollectionRedBlackTreeLib.inf

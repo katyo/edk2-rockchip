@@ -1,8 +1,6 @@
 #
 #  Copyright (c) 2011-2012, ARM Limited. All rights reserved.
-#  Copyright (c) 2016, Hisilicon Limited. All rights reserved.
-#  Copyright (c) 2016, Linaro Limited. All rights reserved.
-#  Copyright (c) 2021, Rockchip Limited. All rights reserved.
+#  Copyright (c) 2021-2022, Rockchip Limited. All rights reserved.
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
@@ -118,7 +116,7 @@
   FmpAuthenticationLib|SecurityPkg/Library/FmpAuthenticationLibPkcs7/FmpAuthenticationLibPkcs7.inf
   EdkiiSystemCapsuleLib|SignedCapsulePkg/Library/EdkiiSystemCapsuleLib/EdkiiSystemCapsuleLib.inf
   IniParsingLib|SignedCapsulePkg/Library/IniParsingLib/IniParsingLib.inf
-  PlatformFlashAccessLib|Silicon/Rockchip/Library/PlatformFlashAccessLib/PlatformFlashAccessLibDxe.inf
+  #PlatformFlashAccessLib|Silicon/Rockchip/Library/PlatformFlashAccessLib/PlatformFlashAccessLibDxe.inf
 
   #
   # It is not possible to prevent the ARM compiler for generic intrinsic functions.
@@ -219,6 +217,7 @@
   DebugLib|MdePkg/Library/DxeRuntimeDebugLibSerialPort/DxeRuntimeDebugLibSerialPort.inf
 !endif
   VariablePolicyLib|MdeModulePkg/Library/VariablePolicyLib/VariablePolicyLibRuntimeDxe.inf
+FspiLib|Silicon/Rockchip/Library/FspiLib/FspiLib.inf
 
 [LibraryClasses.AARCH64]
   ArmGenericTimerCounterLib|ArmPkg/Library/ArmGenericTimerPhyCounterLib/ArmGenericTimerPhyCounterLib.inf
@@ -327,6 +326,16 @@
   gEmbeddedTokenSpaceGuid.PcdTimerPeriod|10000
   gArmTokenSpaceGuid.PcdVFPEnabled|1
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultReceiveFifoDepth|32
+
+  #
+  # Variable store - default values
+  #
+  #gRockchipTokenSpaceGuid.PcdSpiMemoryBase|0xF9000000
+  #gRockchipTokenSpaceGuid.PcdSpiMemoryMapped|TRUE
+  gRockchipTokenSpaceGuid.PcdSpiVariableOffset|0x3C0000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize|0x00010000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize|0x00010000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize|0x00010000
 
 [PcdsDynamicHii.common.DEFAULT]
   gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|L"Timeout"|gEfiGlobalVariableGuid|0x0|10 # Variable: L"Timeout"

@@ -12,29 +12,31 @@
 
 void DebugPrintHex(void *buf, UINT32 width, UINT32 len)
 {
-	UINT32 i,j;
-	UINT8 *p8 = (UINT8 *) buf;
-	UINT16 *p16 = (UINT16 *) buf;
-	UINT32 *p32 =(UINT32 *) buf;
+  UINT32 i,j;
+  UINT8 *p8 = (UINT8 *) buf;
+  UINT16 *p16 = (UINT16 *) buf;
+  UINT32 *p32 =(UINT32 *) buf;
 
-	j = 0;
-	for (i = 0; i < len; i++) {
-		if (j == 0)
-			DebugPrint(DEBUG_ERROR, "%p + 0x%x:",buf, i * width);
+  j = 0;
+  for (i = 0; i < len; i++) {
+    if (j == 0) {
+      DebugPrint(DEBUG_ERROR, "%p + 0x%x:",buf, i * width);
+    }
 
-		if (width == 4)
-			DebugPrint(DEBUG_ERROR, "0x%08x,", p32[i]);
-		else if (width == 2)
-			DebugPrint(DEBUG_ERROR, "0x%04x,", p16[i]);
-		else
-			DebugPrint(DEBUG_ERROR, "0x%02x,", p8[i]);
+    if (width == 4) {
+      DebugPrint(DEBUG_ERROR, "0x%08x,", p32[i]);
+    } else if (width == 2) {
+      DebugPrint(DEBUG_ERROR, "0x%04x,", p16[i]);
+    } else {
+      DebugPrint(DEBUG_ERROR, "0x%02x,", p8[i]);
+    }
 
-		if (++j >= (16/width)) {
-			j = 0;
-			DebugPrint(DEBUG_ERROR, "\n","");
-		}
-	}
-	DebugPrint(DEBUG_ERROR, "\n","");
+    if (++j >= (16/width)) {
+      j = 0;
+      DebugPrint(DEBUG_ERROR, "\n","");
+    }
+  }
+  DebugPrint(DEBUG_ERROR, "\n","");
 }
 
 void DwEmmcDxeIoMux(void)
@@ -44,6 +46,7 @@ void DwEmmcDxeIoMux(void)
 
 #define NS_CRU_BASE         0xFD7C0000
 #define CRU_CLKSEL_CON59    0x03EC
+#define CRU_CLKSEL_CON78    0x0438
 
 void
 EFIAPI
@@ -55,6 +58,32 @@ Rk806SpiIomux(void)
   PMU1_IOC->GPIO0A_IOMUX_SEL_H = (0x0FF0UL << 16) | 0x0110;
   PMU1_IOC->GPIO0B_IOMUX_SEL_L = (0xF0FFUL << 16) | 0x1011;
   MmioWrite32(NS_CRU_BASE + CRU_CLKSEL_CON59, (0x00C0UL << 16) | 0x0080);
+}
+
+void
+EFIAPI
+NorFspiIomux(void)
+{
+  /* io mux */
+  MmioWrite32(NS_CRU_BASE + CRU_CLKSEL_CON78,
+             (((0x3 << 12) | (0x3f << 6)) << 16) | (0x0 << 12) | (0x3f << 6));
+#define FSPI_M1
+#if defined(FSPI_M0)
+   /*FSPI M0*/
+  BUS_IOC->GPIO2A_IOMUX_SEL_L = ((0xF << 0) << 16) | (2 << 0); //FSPI_CLK_M0
+  BUS_IOC->GPIO2D_IOMUX_SEL_L = (0xFFFFUL << 16) | (0x2222); //FSPI_D0_M0,FSPI_D1_M0,FSPI_D2_M0,FSPI_D3_M0
+  BUS_IOC->GPIO2D_IOMUX_SEL_H = ((0xF << 8) << 16) | (0x2 << 8); //FSPI_CS0N_M0
+#elif defined(FSPI_M1)
+  /*FSPI M1*/
+  BUS_IOC->GPIO2A_IOMUX_SEL_H = (0xFF00UL << 16) | (0x3300); //FSPI_D0_M1,FSPI_D1_M1
+  BUS_IOC->GPIO2B_IOMUX_SEL_L = (0xF0FFUL << 16) | (0x3033); //FSPI_D2_M1,FSPI_D3_M1,FSPI_CLK_M1
+  BUS_IOC->GPIO2B_IOMUX_SEL_H = (0xF << 16) | (0x3); //FSPI_CS0N_M1
+#else
+  /*FSPI M2*/
+  BUS_IOC->GPIO3A_IOMUX_SEL_L = (0xFFFFUL << 16) | (0x5555); //[FSPI_D0_M2-FSPI_D3_M2]
+  BUS_IOC->GPIO3A_IOMUX_SEL_H = (0xF0UL << 16) | (0x50); //FSPI_CLK_M2
+  BUS_IOC->GPIO3C_IOMUX_SEL_H = (0xF << 16) | (0x2); //FSPI_CS0_M2
+#endif
 }
 
 UINT32
@@ -70,27 +99,27 @@ I2cGetBase (
     Base = 0xFD880000;
     break;
   case 1:
-  	Base = 0xFEA90000;
-	/* io mux */
-	//BUS_IOC->GPIO0B_IOMUX_SEL_H = (0x0FF0UL << 16) | 0x0990;
-	//PMU2_IOC->GPIO0B_IOMUX_SEL_H = (0x0FF0UL << 16) | 0x0880;
+    Base = 0xFEA90000;
+    /* io mux */
+    //BUS_IOC->GPIO0B_IOMUX_SEL_H = (0x0FF0UL << 16) | 0x0990;
+    //PMU2_IOC->GPIO0B_IOMUX_SEL_H = (0x0FF0UL << 16) | 0x0880;
     break;
   case 2:
-	Base = 0xFEAA0000;
-	/* io mux */
-	BUS_IOC->GPIO0B_IOMUX_SEL_H = (0xF000UL << 16) | 0x9000;
-	BUS_IOC->GPIO0C_IOMUX_SEL_L = (0x000FUL << 16) | 0x0009;
-	PMU2_IOC->GPIO0B_IOMUX_SEL_H = (0xF000UL << 16) | 0x8000;
-	PMU2_IOC->GPIO0C_IOMUX_SEL_L = (0x000FUL << 16) | 0x0008;
+    Base = 0xFEAA0000;
+    /* io mux */
+    BUS_IOC->GPIO0B_IOMUX_SEL_H = (0xF000UL << 16) | 0x9000;
+    BUS_IOC->GPIO0C_IOMUX_SEL_L = (0x000FUL << 16) | 0x0009;
+    PMU2_IOC->GPIO0B_IOMUX_SEL_H = (0xF000UL << 16) | 0x8000;
+    PMU2_IOC->GPIO0C_IOMUX_SEL_L = (0x000FUL << 16) | 0x0008;
     break;
   case 3:
-	Base = 0xFEAB0000;
+    Base = 0xFEAB0000;
     break;
   case 4:
-	Base = 0xFEAC0000;
+    Base = 0xFEAC0000;
     break;
   case 5:
-	Base = 0xFEAD0000;
+    Base = 0xFEAD0000;
     break;
   default:
     break;
@@ -98,7 +127,6 @@ I2cGetBase (
 
   return Base;
 }
-
 
 #define GPIO4_BASE         0xFEC50000
 #define GPIO_SWPORT_DR_L   0x0000
@@ -110,7 +138,6 @@ UsbPortPowerEnable (void)
 {
   MmioWrite32(GPIO4_BASE + GPIO_SWPORT_DR_L, (0x0100UL << 16) | 0x0100);
   MmioWrite32(GPIO4_BASE + GPIO_SWPORT_DDR_L, (0x0100UL << 16) | 0x0100);
-
 }
 
 void
@@ -132,5 +159,3 @@ Usb2PhyResume (void)
   MmioWrite32(0xfd7f0a10, 0x07000700);
   MmioWrite32(0xfd7f0a10, 0x07000000);
 }
-
-

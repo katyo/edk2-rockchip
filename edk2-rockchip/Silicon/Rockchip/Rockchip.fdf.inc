@@ -1,7 +1,5 @@
 #/** @file
 #
-#    Copyright (c) 2016, Hisilicon Limited. All rights reserved.
-#    Copyright (c) 2016, Linaro Limited. All rights reserved.
 #    Copyright (c) 2021, Rockchip Limited. All rights reserved.
 #
 #    SPDX-License-Identifier: BSD-2-Clause-Patent

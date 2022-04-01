@@ -21,7 +21,7 @@
 STATIC EFI_PHYSICAL_ADDRESS     mInternalFdAddress;
 STATIC EFI_PHYSICAL_ADDRESS     mSFCMEM0BaseAddress;
 
-STATIC ROCKCHIP_SPI_FLASH_PROTOCOL         *mSpiProtocol;
+STATIC UNI_NOR_FLASH_PROTOCOL   *mSpiProtocol;
 
 /**
   Perform flash write operation with progress indicator.  The start and end
@@ -81,9 +81,9 @@ PerformFlashWriteWithProgress (
 
   RomAddress = (UINT32)FlashAddress + (mInternalFdAddress - mSFCMEM0BaseAddress);
 
-  DEBUG ((DEBUG_INFO, "Erase and Write Flash Start\n"));
+  DEBUG ((DEBUG_INFO, "Erase and Write Flash Start\n"))
 
-  Status = mSpiProtocol->EraseWrite (
+  Status = mSpiProtocol->Update (
                            mSpiProtocol,
                            (UINT32) RomAddress,
                            (UINT8 *)Buffer,
@@ -159,7 +159,7 @@ PerformFlashAccessLibConstructor (
           mSFCMEM0BaseAddress));
 
   Status = gBS->LocateProtocol (
-                  &gRockchipSpiFlashProtocolGuid,
+                  &gUniNorFlashProtocolGuid,
                   NULL,
                   (VOID **)&mSpiProtocol);
   if (EFI_ERROR (Status)) {

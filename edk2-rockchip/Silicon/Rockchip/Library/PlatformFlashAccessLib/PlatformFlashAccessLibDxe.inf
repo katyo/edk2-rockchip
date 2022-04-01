@@ -35,11 +35,11 @@
   UefiBootServicesTableLib
 
 [Protocols]
-  gRockchipSpiFlashProtocolGuid
+  gUniNorFlashProtocolGuid
 
 [FixedPcd]
   gArmTokenSpaceGuid.PcdFdBaseAddress
   gRockchipTokenSpaceGuid.PcdSFCMEM0BaseAddress
 
 [Depex]
-  gRockchipSpiFlashProtocolGuid
+  gUniNorFlashProtocolGuid
