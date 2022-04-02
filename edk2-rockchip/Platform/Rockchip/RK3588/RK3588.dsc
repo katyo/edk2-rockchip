@@ -263,8 +263,13 @@
 !ifdef $(ROCKCHIP_ACPIEN)
   MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   Platform/Rockchip/RK3588/AcpiTables/AcpiTables.inf
+!else
+  # DTB
+  EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf {
+  <LibraryClasses>
+    DtPlatformDtbLoaderLib|EmbeddedPkg/Library/DxeDtPlatformDtbLoaderLibDefault/DxeDtPlatformDtbLoaderLibDefault.inf
+  }
 !endif
-
   #
   # GPIO
   #
