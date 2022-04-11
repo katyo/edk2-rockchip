@@ -166,7 +166,13 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].PhysicalBase    = RK3588_PERIPH_BASE;
   VirtualMemoryTable[Index].VirtualBase     = RK3588_PERIPH_BASE;
   VirtualMemoryTable[Index].Length          = RK3588_PERIPH_SZ;
-  VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+  VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE;
+
+  //PCIe 64 BAR space
+  VirtualMemoryTable[++Index].PhysicalBase    = 0x940000000;
+  VirtualMemoryTable[Index].VirtualBase     = 0x940000000;
+  VirtualMemoryTable[Index].Length          = 0x100000000 + 0x1400000;
+  VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE;
 
   // DDR - predefined 1GB size
   VirtualMemoryTable[++Index].PhysicalBase  = PcdGet64 (PcdSystemMemoryBase);

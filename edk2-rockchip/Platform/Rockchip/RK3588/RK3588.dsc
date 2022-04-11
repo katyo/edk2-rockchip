@@ -63,6 +63,13 @@
   # USB Requirements
   UefiUsbLib|MdePkg/Library/UefiUsbLib/UefiUsbLib.inf
 
+  # PCIe
+  PciSegmentLib|MdePkg/Library/BasePciSegmentLibPci/BasePciSegmentLibPci.inf
+  PciHostBridgeLib|Silicon/Rockchip/Library/PciHostBridgeLib/PciHostBridgeLib.inf
+  PciExpressLib|Silicon/Rockchip/Library/PciExpressLib/PciExpressLib.inf
+  PciLib|MdePkg/Library/BasePciLibPciExpress/BasePciLibPciExpress.inf
+
+
   # VariableRuntimeDxe Requirements
   SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
   AuthVariableLib|MdeModulePkg/Library/AuthVariableLibNull/AuthVariableLibNull.inf
@@ -163,6 +170,22 @@
   # SDHCI controller
   #
   gRockchipTokenSpaceGuid.PcdSdhciDxeBaseAddress|0xfe2e0000
+
+  #
+  # PCIe controller
+  #
+  gRockchipTokenSpaceGuid.PcdPcieRootPortApbBaseAddress|0xfe150000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortDbiBaseAddress|0xf5000000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortCfgBaseAddress|0xf0000000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortCfgSize|0x100000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortIoBaseAddress|0xf0100000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortIoSize|0x100000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortMemBaseAddress|0xf0200000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortMemSize|0xe00000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortMemBaseAddress64|0x900000000
+  gRockchipTokenSpaceGuid.PcdPcieRootPortMemSize64|0x40000000
+
+
   #
   #
   # Fastboot
@@ -190,7 +213,6 @@
   gRK3588TokenSpaceGuid.PcdAndroidBootDevicePath|L"\\EFI\\BOOT\\GRUBAA64.EFI"
   gRK3588TokenSpaceGuid.PcdSdBootDevicePath|L"VenHw(0D51905B-B77E-452A-A2C0-ECA0CC8D514A,00E023F70000000000)/SD(0x0)"
   gEmbeddedTokenSpaceGuid.PcdAndroidBootDevicePath|L"VenHw(100C2CFA-B586-4198-9B4C-1683D195B1DA)/HD(3,GPT,7A3F0000-0000-446A-8000-702F00006273,0x8000,0x20000)"
-
   #
   # Make VariableRuntimeDxe work at emulated non-volatile variable mode.
   #
@@ -246,6 +268,25 @@
   MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitterDxe.inf
   MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
   MdeModulePkg/Universal/SerialDxe/SerialDxe.inf
+
+  #PCIe
+  Silicon/Rockchip/Library/PciExpressLib/PciExpressLib.inf
+  Silicon/Rockchip/Library/PciHostBridgeLib/PciHostBridgeLib.inf
+  Silicon/Rockchip/Drivers/PciPlatform/PcieInitDxe.inf
+  ArmPkg/Drivers/ArmPciCpuIo2Dxe/ArmPciCpuIo2Dxe.inf
+
+  MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
+  MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
+  MdeModulePkg/Bus/Pci/NvmExpressDxe/NvmExpressDxe.inf
+  #MdeModulePkg/Bus/Pci/NvmExpressPei/NvmExpressPei.inf
+  #INF MdeModulePkg/Bus/Pci/EhciDxe/XhciDxe.inf
+  MdeModulePkg/Bus/Ata/AtaAtapiPassThru/AtaAtapiPassThru.inf
+  MdeModulePkg/Bus/Pci/SataControllerDxe/SataControllerDxe.inf
+
+    MdeModulePkg/Bus/Pci/NonDiscoverablePciDeviceDxe/NonDiscoverablePciDeviceDxe.inf
+#  MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
+#  MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+  
 
   MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
   MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf

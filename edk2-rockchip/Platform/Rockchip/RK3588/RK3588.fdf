@@ -190,6 +190,29 @@ READ_LOCK_STATUS   = TRUE
   #
   INF EmbeddedPkg/Application/AndroidFastboot/AndroidFastbootApp.inf
 
+  #PCIe
+  INF Silicon/Rockchip/Drivers/PciPlatform/PcieInitDxe.inf
+
+
+  # Required by PCI
+  INF ArmPkg/Drivers/ArmPciCpuIo2Dxe/ArmPciCpuIo2Dxe.inf
+
+  # PCI Support
+  INF MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
+  INF MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
+  INF MdeModulePkg/Bus/Pci/NvmExpressDxe/NvmExpressDxe.inf
+  #INF MdeModulePkg/Bus/Pci/NvmExpressPei/NvmExpressPei.inf
+
+   #INF MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
+  #INF MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+  # INF MdeModulePkg/Bus/Pci/EhciDxe/XhciDxe.inf
+    INF MdeModulePkg/Bus/Pci/NonDiscoverablePciDeviceDxe/NonDiscoverablePciDeviceDxe.inf
+     INF MdeModulePkg/Bus/Pci/SataControllerDxe/SataControllerDxe.inf
+     INF MdeModulePkg/Bus/Ata/AtaAtapiPassThru/AtaAtapiPassThru.inf
+
+
+	
+
   #
   # Android Boot applications
   #

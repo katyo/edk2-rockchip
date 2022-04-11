@@ -37,8 +37,8 @@
 /* ================      Processor and Core Peripheral Section     ================ */
 /* ================================================================================ */
 #include "RK3588.h"
-#define RK3588_PERIPH_BASE      0xFC000000
-#define RK3588_PERIPH_SZ        0x04000000
+#define RK3588_PERIPH_BASE      0xF0000000
+#define RK3588_PERIPH_SZ        0x10000000
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
