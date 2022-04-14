@@ -190,9 +190,10 @@ READ_LOCK_STATUS   = TRUE
   #
   INF EmbeddedPkg/Application/AndroidFastboot/AndroidFastbootApp.inf
 
+  !ifdef $(ROCKCHIP_PCIE30)
+
   #PCIe
   INF Silicon/Rockchip/Drivers/PciPlatform/PcieInitDxe.inf
-
 
   # Required by PCI
   INF ArmPkg/Drivers/ArmPciCpuIo2Dxe/ArmPciCpuIo2Dxe.inf
@@ -209,10 +210,7 @@ READ_LOCK_STATUS   = TRUE
     INF MdeModulePkg/Bus/Pci/NonDiscoverablePciDeviceDxe/NonDiscoverablePciDeviceDxe.inf
      INF MdeModulePkg/Bus/Pci/SataControllerDxe/SataControllerDxe.inf
      INF MdeModulePkg/Bus/Ata/AtaAtapiPassThru/AtaAtapiPassThru.inf
-
-
-	
-
+!endif
   #
   # Android Boot applications
   #
