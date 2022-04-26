@@ -118,14 +118,13 @@ READ_LOCK_STATUS   = TRUE
 !ifdef $(ROCKCHIP_ACPIEN)
   INF MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   INF RuleOverride = ACPITABLE Platform/Rockchip/RK3588/AcpiTables/AcpiTables.inf
-!endif
-
+!else
   # DTB
   INF EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf
   FILE FREEFORM = 25462CDA-221F-47DF-AC1D-259CFAA4E326 {
     SECTION RAW = Platform/Rockchip/DeviceTree/rk3588.dtb
   }
-
+!endif
   #
   # GPIO
   #

@@ -223,6 +223,11 @@
   #
   gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
 
+# ACPI Enable
+!ifdef $(ROCKCHIP_ACPIEN)
+  gRK3588TokenSpaceGuid.AcpiEnable|TRUE
+!endif
+
   #
   # Display
   #
@@ -243,10 +248,6 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutRow|0
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutColumn|0
 
-# ACPI Enable
-!ifdef $(ROCKCHIP_ACPIEN)
-  gRK3588TokenSpaceGuid.AcpiEnable|TRUE
-!endif
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
