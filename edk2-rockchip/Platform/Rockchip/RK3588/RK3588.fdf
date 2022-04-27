@@ -103,7 +103,9 @@ READ_LOCK_STATUS   = TRUE
   #
   INF MdeModulePkg/Universal/Console/ConPlatformDxe/ConPlatformDxe.inf
   INF MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
+!ifdef $(ROCKCHIP_VOPEN)
   INF MdeModulePkg/Universal/Console/GraphicsConsoleDxe/GraphicsConsoleDxe.inf
+!endif
   INF MdeModulePkg/Universal/SerialDxe/SerialDxe.inf
 
   INF ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
@@ -146,11 +148,12 @@ READ_LOCK_STATUS   = TRUE
   #
   # Display Support
   #
+!ifdef $(ROCKCHIP_VOPEN)
   INF Silicon/Rockchip/Drivers/Vop2Dxe/Vop2Dxe.inf
   INF Silicon/Rockchip/Drivers/LcdGraphicsOutputDxe/LcdGraphicsOutputDxe.inf
   INF Platform/Rockchip/RK3588/LogoDxe/LogoDxe.inf
   INF Platform/Rockchip/RK3588/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
-
+!endif
   INF Platform/Rockchip/RK3588/RK3588Dxe/RK3588Dxe.inf
 
   #
