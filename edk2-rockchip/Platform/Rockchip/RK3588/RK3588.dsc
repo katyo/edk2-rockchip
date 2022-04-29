@@ -40,7 +40,7 @@
   AcpiLib|EmbeddedPkg/Library/AcpiLib/AcpiLib.inf
   ArmPlatformLib|Platform/Rockchip/RK3588/Library/RK3588Lib/RK3588Lib.inf
   RockchipPlatfromLib|Platform/Rockchip/RK3588/Library/RockchipPlatfromLib/RockchipPlatfromLib.inf
-# CruLib|Silicon/Rockchip/Library/CruLib/CruLib.inf
+  CruLib|Silicon/Rockchip/Library/CruLib/CruLib.inf
 
   DmaLib|EmbeddedPkg/Library/NonCoherentDmaLib/NonCoherentDmaLib.inf
 
