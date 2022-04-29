@@ -19,14 +19,14 @@
 #
 ################################################################################
 
-[FD.BL33_AP_UEFI]
-BaseAddress   = 0x00200000|gArmTokenSpaceGuid.PcdFdBaseAddress  # The base address of the Firmware in NOR Flash.
-Size          = 0x000F0000|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the FLASH Device
+[FD.NOR_FLASH_IMAGE]
+BaseAddress   = 0x00000000|gArmTokenSpaceGuid.PcdFdBaseAddress  # The base address of the Firmware in NOR Flash.
+Size          = 0x00800000|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the FLASH Device
 ErasePolarity = 1
 
 # This one is tricky, it must be: BlockSize * NumBlocks = Size
 BlockSize     = 0x00001000
-NumBlocks     = 0xF0
+NumBlocks     = 0x800
 
 ################################################################################
 #
@@ -43,11 +43,21 @@ NumBlocks     = 0xF0
 # RegionType <FV, DATA, or FILE>
 #
 ################################################################################
-
-0x00000000|0x000F0000
+0x00200000|0x000F0000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
-FV = FVMAIN_COMPACT
+FV = BL33_AP_UEFI
 
+# NV_VARIABLE_STORE
+0x007C0000|0x0000F000
+gRockchipTokenSpaceGuid.PcdNvStorageVariableBase|gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
+
+# NV_FTW_WORKING header
+0x007CF000|0x00001000
+gRockchipTokenSpaceGuid.PcdNvStorageFtwWorkingBase|gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize
+
+# NV_FTW_WORKING data
+0x007D0000|0x00010000
+gRockchipTokenSpaceGuid.PcdNvStorageFtwSpareBase|gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
 
 ################################################################################
 #
@@ -284,7 +294,7 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
   INF MdeModulePkg/Application/UiApp/UiApp.inf
 
-[FV.FVMAIN_COMPACT]
+[FV.BL33_AP_UEFI]
 FvAlignment        = 8
 ERASE_POLARITY     = 1
 MEMORY_MAPPED      = TRUE

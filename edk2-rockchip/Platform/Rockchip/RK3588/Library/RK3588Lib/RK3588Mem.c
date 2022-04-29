@@ -170,6 +170,23 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].VirtualBase     = RK3588_PERIPH_BASE;
   VirtualMemoryTable[Index].Length          = RK3588_PERIPH_SZ;
   VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE;
+#if 1
+   BuildResourceDescriptorHob (
+    EFI_RESOURCE_SYSTEM_MEMORY,
+    EFI_RESOURCE_ATTRIBUTE_PRESENT |
+    EFI_RESOURCE_ATTRIBUTE_INITIALIZED |
+    EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE |
+    EFI_RESOURCE_ATTRIBUTE_TESTED,
+    0xFE2B0000,
+    0x00100000
+  );
+
+  BuildMemoryAllocationHob (
+    0xFE2B0000,
+    0x00100000,
+    EfiRuntimeServicesData
+  );
+#endif
 
   //PCIe 64 BAR space
   VirtualMemoryTable[++Index].PhysicalBase    = 0x940000000;
