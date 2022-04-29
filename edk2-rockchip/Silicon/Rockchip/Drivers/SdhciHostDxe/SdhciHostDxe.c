@@ -1371,6 +1371,7 @@ MMCInitialize (
   DEBUG ((DEBUG_MMCHOST_SD, "RkSdhciHost: MMCInitialize()\n"));
 
   mMmcHsBase = PcdGet32 (PcdSdhciDxeBaseAddress);
+  SdhciEmmcDxeIoMux();
 
   #if 0
   word32(mMmcHsBase + 0x800) = (0x1 << 1);

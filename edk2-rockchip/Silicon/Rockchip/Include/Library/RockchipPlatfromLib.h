@@ -28,6 +28,9 @@ VOID
 EFIAPI
 DwEmmcDxeIoMux ();
 
+void
+EFIAPI
+SdhciEmmcDxeIoMux();
 
 VOID
 EFIAPI

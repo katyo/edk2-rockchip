@@ -39,9 +39,21 @@ void DebugPrintHex(void *buf, UINT32 width, UINT32 len)
   DebugPrint(DEBUG_ERROR, "\n","");
 }
 
-void DwEmmcDxeIoMux(void)
+void
+EFIAPI
+DwEmmcDxeIoMux(void)
 {
   /* sdmmc0 iomux */
+}
+
+void
+EFIAPI
+SdhciEmmcDxeIoMux(void)
+{
+  /* sdmmc0 iomux */
+  BUS_IOC->GPIO2A_IOMUX_SEL_L = (0xFFFFUL << 16) | (0x1111); //EMMC_CMD,EMMC_CLKOUT,EMMC_DATASTROBE,EMMC_RSTN
+  BUS_IOC->GPIO2D_IOMUX_SEL_L = (0xFFFFUL << 16) | (0x1111); //EMMC_D0,EMMC_D1,EMMC_D2,EMMC_D3
+  BUS_IOC->GPIO2D_IOMUX_SEL_H = (0xFFFFUL << 16) | (0x1111); //EMMC_D4,EMMC_D5,EMMC_D6,EMMC_D7
 }
 
 #define NS_CRU_BASE         0xFD7C0000
