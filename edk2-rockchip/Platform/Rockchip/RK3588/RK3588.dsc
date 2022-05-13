@@ -385,6 +385,11 @@
   # Silicon/Rockchip/Library/SpiLib/SpiTest.inf
 
   #
+  # SMBIOS Support
+  #
+  Platform/Rockchip/RK3588/PlatformSmbiosDxe/PlatformSmbiosDxe.inf
+  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+  #
   # USB Ohci Controller
   #
   Silicon/Rockchip/Drivers/OhciDxe/OhciDxe.inf

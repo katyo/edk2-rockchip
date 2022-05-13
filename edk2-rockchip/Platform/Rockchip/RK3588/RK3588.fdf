@@ -167,6 +167,12 @@ READ_LOCK_STATUS   = TRUE
   INF Platform/Rockchip/RK3588/RK3588Dxe/RK3588Dxe.inf
 
   #
+  # SMBIOS Support
+  #
+  INF Platform/Rockchip/RK3588/PlatformSmbiosDxe/PlatformSmbiosDxe.inf
+  INF MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+
+  #
   # USB Ehci Controller
   #
   INF Silicon/Rockchip/Drivers/EhciDxe/EhciDxe.inf
