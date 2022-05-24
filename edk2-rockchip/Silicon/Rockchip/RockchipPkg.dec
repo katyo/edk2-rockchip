@@ -303,7 +303,7 @@
   gRockchipTokenSpaceGuid.PcdOhciBaseAddress|0|UINT32|0x50000063
   gRockchipTokenSpaceGuid.PcdNumOhciController|0|UINT32|0x50000064
   gRockchipTokenSpaceGuid.PcdOhciSize|0|UINT32|0x50000065
-  gRockchipTokenSpaceGuid.FspiBaseAddr|0|UINT32|0x21200003
+  gRockchipTokenSpaceGuid.FspiBaseAddr|0|UINT64|0x21200003
   gRockchipTokenSpaceGuid.PcdSpiVariableOffset|0|UINT32|0x21200004
 
   gRockchipTokenSpaceGuid.PcdNvStorageVariableBase|0|UINT32|0x21200005

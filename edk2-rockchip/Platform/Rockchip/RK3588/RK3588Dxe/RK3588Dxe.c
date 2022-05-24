@@ -5,7 +5,9 @@
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
 **/
-
+#include <Uefi.h>
+#include <Library/ArmLib.h>
+#include <Protocol/Cpu.h>
 #include <Library/CacheMaintenanceLib.h>
 #include <Library/DebugLib.h>
 #include <Library/DevicePathLib.h>
@@ -24,6 +26,7 @@
 #include <Protocol/PlatformBootManager.h>
 #include <Protocol/PlatformVirtualKeyboard.h>
 #include <Protocol/AndroidBootImg.h>
+#include <Library/DxeServicesTableLib.h>
 
 #include <Soc.h>
 #include <RK3588RegsPeri.h>
@@ -397,6 +400,38 @@ STATIC CONST EFI_GUID mAcpiTableFile = {
   0x7E374E25, 0x8E01, 0x4FEE, { 0x87, 0xf2, 0x39, 0x0C, 0x23, 0xC6, 0x06, 0xCD }
 };
 
+STATIC VOID SetFlashAttributeToUncache(VOID)
+{
+  EFI_STATUS Status;
+  EFI_GCD_MEMORY_SPACE_DESCRIPTOR desp = {0};
+
+  Status = gDS->AddMemorySpace (
+                     EfiGcdMemoryTypeMemoryMappedIo,
+                     PcdGet64(FspiBaseAddr),
+                     SIZE_64KB,
+                     EFI_MEMORY_UC | EFI_MEMORY_RUNTIME
+                     );
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "RTC: Failed to add memory space Status = %r\n", Status));
+    return;
+  }
+
+  Status = gDS->GetMemorySpaceDescriptor(PcdGet64(FspiBaseAddr),&desp);
+  DEBUG ((DEBUG_ERROR, "%a: GetMemorySpaceDescriptor status = %x\n", __FUNCTION__, Status));
+  if(EFI_ERROR(Status)){
+    return;
+  }
+
+  Status = gDS->SetMemorySpaceAttributes (
+                     PcdGet64(FspiBaseAddr),
+                     SIZE_64KB,
+                     EFI_MEMORY_UC | EFI_MEMORY_RUNTIME
+                     );
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "%a: Failed to set memory attributes Status = %x\n",__FUNCTION__, Status));
+  }
+}
+
 EFI_STATUS
 EFIAPI
 RK3588EntryPoint (
@@ -410,6 +445,8 @@ RK3588EntryPoint (
   if (EFI_ERROR (Status)) {
     return Status;
   }
+
+  SetFlashAttributeToUncache();
 
   if(PcdGetBool (AcpiEnable)) {
     LocateAndInstallAcpiFromFvConditional (&mAcpiTableFile, NULL);
