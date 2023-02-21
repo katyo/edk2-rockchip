@@ -1,0 +1,4 @@
+[submodule "edk2"]
+	path = edk2
+	url = ../edk2
+	branch = rockchip-202211
